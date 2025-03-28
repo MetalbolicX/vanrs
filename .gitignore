@@ -5,3 +5,4 @@
 .merlin
 .qodo
 dist/
+src/**/*.res.mjs

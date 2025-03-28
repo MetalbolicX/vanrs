@@ -21,6 +21,7 @@ function createTag(nsOpt, tagName) {
   var ns = nsOpt !== undefined ? nsOpt : "Html";
   var n = resolveNamespace(ns);
   var proxy = n !== undefined ? VanjsCore.default.tags(n) : VanjsCore.default.tags();
+  console.log(proxy(tagName));
   return (function(tagsProxy, tagName) {
         return tagsProxy[tagName]
       })(proxy, tagName)();

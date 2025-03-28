@@ -25,7 +25,7 @@ module Tags = {
 
   // External binding to van.tags with namespace argument
   @module("vanjs-core") @scope("default")
-  external tagsWithNamespace: string => tagsProxy = "tags"
+  external tagsNs: string => tagsProxy = "tags"
 
   // Resolve namespace to its string representation
   let resolveNamespace: namespace => option<string> = ns => {
@@ -43,7 +43,7 @@ module Tags = {
     ~tagName,
   ) => {
     let proxy = switch resolveNamespace(ns) {
-    | Some(n) => tagsWithNamespace(n)
+    | Some(n) => tagsNs(n)
     | None => tags()
     }
 
