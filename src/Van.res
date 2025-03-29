@@ -49,21 +49,22 @@ module Tags = {
   }
 
   // Create a tag function with optional namespace
-  let createTag: (
-    ~namespace: namespace=?,
-    ~tagName: string,
-    ~properties: {..}=?,
-    // ~children: array<child>=?,
-  ) => dom = (
-    ~namespace as ns=Html,
-    ~tagName,
-    ~properties as props=Js.Obj.empty(),
-    // ~children=[],
-  ) => {
-    let proxy = switch resolveNamespace(ns) {
-    | Some(n) => tagsNs(n)
-    | None => tags()
-    }
-    %raw(`(tagsProxy, tagName) => tagsProxy[tagName]`)(proxy, tagName)(props)
+let createTag: (
+  ~namespace: namespace=?,
+  ~tagName: string,
+  ~properties: {..}=?,
+  ~children: array<child>=?,
+) => dom = (
+  ~namespace as ns=Html,
+  ~tagName,
+  ~properties as props=Js.Obj.empty(),
+  ~children=[],
+) => {
+  let proxy = switch resolveNamespace(ns) {
+  | Some(n) => tagsNs(n)
+  | None => tags()
   }
+  // Use %raw to dynamically call the tag function
+  %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(proxy, tagName, props, children)
+}
 }
