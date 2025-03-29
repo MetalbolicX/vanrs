@@ -17,15 +17,14 @@ module Tags = {
     | MathMl
     | Custom(string)
 
-
   type rec child =
     | DomNode(dom)
     | Text(string)
     | Number(float)
     | Boolean(bool)
     | Null
-    // | StateValue('a)
-    // | StateDerived('a => 'b)
+    // | StateValue<'a>('a)
+    // | StateDerived<'a>('a => 'a)
     | Children(array<child>)
 
   // Type for tags proxy
@@ -53,13 +52,13 @@ module Tags = {
   let createTag: (
     ~namespace: namespace=?,
     ~tagName: string,
-    // ~children: array<'a>=?,
     ~properties: {..}=?,
+    // ~children: array<child>=?,
   ) => dom = (
     ~namespace as ns=Html,
     ~tagName,
-    // ~children=None,
     ~properties as props=Js.Obj.empty(),
+    // ~children=[],
   ) => {
     let proxy = switch resolveNamespace(ns) {
     | Some(n) => tagsNs(n)

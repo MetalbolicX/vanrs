@@ -30,8 +30,9 @@ let root = switch document->getElementById("root") {
 Van.add(
   root,
   Van.Tags.createTag(
-    ~tagName="button",
-    ~properties={"class": "test", "id": "special", "onlcick": _ => Console.log("Clicked")},
+    ~namespace=Svg,
+    ~tagName="circle",
+    ~properties={"class": "test", "id": "special", "cx": 50, "cy": 50, "r": 40},
   ),
 )
 // Van.add(root, Van.Tags.createTag(~tagName="span", ~properties={"class": "test", "id": "special"}))
