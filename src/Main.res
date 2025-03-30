@@ -10,22 +10,6 @@ let root = switch document->getElementById("root") {
 | None => Js.Exn.raiseError("Root element not found")
 }
 
-let counter = Van.state(10)
-Console.log(Van.derive(() => counter.val * 10).val)
-Console.log2("Hola", counter.val)
-
-// let increment = () => {
-//   counter.set(prev => prev + 1)
-// }
-
-// let app = div(
-//   ~children=[
-//     text(`Count: ${counter.val->Int.toString}`),
-//     button(~onclick=increment, ~children=[text("Increment")], ())
-//   ],
-//   ()
-// )
-
 Van.add(
   root,
   [

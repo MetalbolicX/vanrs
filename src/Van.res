@@ -24,16 +24,15 @@ module Tags = {
     | MathMl
     | Custom(string)
 
-  type rec child =
+  type child =
     | DomNode(dom)
     | Text(string)
     | Number(float)
     | Boolean(bool)
     | Null
     | None
-  // | StateValue<'a>('a)
-  // | StateDerived<'a>('a => 'a)
-  // | Children(array<child>)
+    | State(state<string>)
+    | Derived(state<string>)
 
   // Type for tags proxy
   type tagsProxy
@@ -61,7 +60,9 @@ module Tags = {
     | DomNode(node) => node
     | Text(str) => document->createTextNode(str)
     | Number(num) => document->createTextNode(Float.toString(num))
-    | Boolean(bool) => document->createTextNode(string_of_bool(bool))
+    | Boolean(bl) => document->createTextNode(string_of_bool(bl))
+    | State(st) => document->createTextNode(st.val->String.make)
+    | Derived(dv) => document->createTextNode(dv.val->String.make)
     | None | Null => document->createTextNode("")
     }
   }
