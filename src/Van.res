@@ -67,15 +67,16 @@ module Tags = {
     }
   }
 
+  let removeChildInput: child => bool = child =>
+    switch child {
+    | Text(str) when str->String.trim->String.equal("") => false
+    | Null | None => false
+    | _ => true
+    }
+
   let normalizedChildren: array<child> => array<dom> = children =>
     children
-    ->Array.filter(child =>
-      switch child {
-      | Text(str) when String.equal(str, "") => false
-      | Null | None => false
-      | _ => true
-      }
-    )
+    ->Array.filter(removeChildInput)
     ->Array.map(normalizedChild)
 
   // Create a tag function with optional namespace
