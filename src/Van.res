@@ -1,5 +1,8 @@
 type dom = Dom.element
 
+@val external document: Dom.document = "document"
+@send external createTextNode: (Dom.document, string) => dom = "createTextNode"
+
 @module("vanjs-core") @scope("default")
 external add: (dom, dom) => unit = "add"
 
@@ -23,9 +26,10 @@ module Tags = {
     | Number(float)
     | Boolean(bool)
     | Null
-    // | StateValue<'a>('a)
-    // | StateDerived<'a>('a => 'a)
-    | Children(array<child>)
+    | None
+  // | StateValue<'a>('a)
+  // | StateDerived<'a>('a => 'a)
+  // | Children(array<child>)
 
   // Type for tags proxy
   type tagsProxy
@@ -48,23 +52,49 @@ module Tags = {
     }
   }
 
-  // Create a tag function with optional namespace
-let createTag: (
-  ~namespace: namespace=?,
-  ~tagName: string,
-  ~properties: {..}=?,
-  ~children: array<child>=?,
-) => dom = (
-  ~namespace as ns=Html,
-  ~tagName,
-  ~properties as props=Js.Obj.empty(),
-  ~children=[],
-) => {
-  let proxy = switch resolveNamespace(ns) {
-  | Some(n) => tagsNs(n)
-  | None => tags()
+  let normalizedChild: child => dom = child => {
+    switch child {
+    | DomNode(node) => node
+    | Text(str) => document->createTextNode(str)
+    | Number(num) => document->createTextNode(Float.toString(num))
+    | Boolean(bool) => document->createTextNode(string_of_bool(bool))
+    | None | Null => document->createTextNode("")
+    }
   }
-  // Use %raw to dynamically call the tag function
-  %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(proxy, tagName, props, children)
-}
+
+  let normalizedChildren: array<child> => array<dom> = children =>
+    children
+    ->Array.filter(child =>
+      switch child {
+      | Text(str) when String.equal(str, "") => false
+      | Null | None => false
+      | _ => true
+      }
+    )
+    ->Array.map(normalizedChild)
+
+  // Create a tag function with optional namespace
+  let createTag: (
+    ~namespace: namespace=?,
+    ~tagName: string,
+    ~properties: {..}=?,
+    ~children: array<child>=?,
+  ) => dom = (
+    ~namespace as ns=Html,
+    ~tagName,
+    ~properties as props=Js.Obj.empty(),
+    ~children=[],
+  ) => {
+    let proxy = switch resolveNamespace(ns) {
+    | Some(n) => tagsNs(n)
+    | None => tags()
+    }
+    let normChildren = normalizedChildren(children)
+    %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(
+      proxy,
+      tagName,
+      props,
+      normChildren,
+    )
+  }
 }

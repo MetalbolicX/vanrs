@@ -25,14 +25,18 @@ let root = switch document->getElementById("root") {
 //   ()
 // )
 
-// Console.log(Van.Tags.createTag(~tagName="span"))
-// Console.log(Van.Tags.createTag(Svg, "circle"))
 Van.add(
   root,
   Van.Tags.createTag(
-    ~namespace=Svg,
-    ~tagName="circle",
-    ~properties={"class": "test", "id": "special", "cx": 50, "cy": 50, "r": 40},
+    ~properties={
+      "class": "test",
+      "id": "special",
+      "onclick": _ => Console.log("Hello clicked!"),
+    },
+    ~tagName="button",
+    ~children=[
+      Van.Tags.Text("Click me!"),
+      // Van.Tags.DomNode(Van.Tags.createTag(~tagName="span", ~children=[Van.Tags.Text("world!")])),
+    ],
   ),
 )
-// Van.add(root, Van.Tags.createTag(~tagName="span", ~properties={"class": "test", "id": "special"}))

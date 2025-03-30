@@ -4,9 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VanJS with ReScript</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+      }
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      h1 {
+        color: #333;
+      }
+      .test-div {
+        color: #ff0000;
+        font-size: 2rem;
+      }
+    </style>
   </head>
   <body>
-    <svg id="root"></svg>
+    <main id="root"></main>
     <script src="./dist/Main.res.js" type="module"></script>
     <!-- <script type="module" src="./ts/main.ts"></script> -->
   </body>
