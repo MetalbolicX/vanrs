@@ -4,13 +4,17 @@ type dom = Dom.element
 @send external createTextNode: (Dom.document, string) => dom = "createTextNode"
 
 @module("vanjs-core") @scope("default")
-external add: (dom, dom) => unit = "add"
+external add: (dom, array<dom>) => unit = "add"
+
+type state<'a> = {
+  mutable val: 'a,
+}
 
 @module("vanjs-core") @scope("default")
-external state: 'a => {"val": 'a, "set": ('a => 'a) => unit} = "state"
+external state: 'a => state<'a> = "state"
 
 @module("vanjs-core") @scope("default")
-external derive: ('a => 'b, 'a) => 'b = "derive"
+external derive: (() => 'a) => state<'a> = "derive"
 
 module Tags = {
   // Namespace type
@@ -82,7 +86,7 @@ module Tags = {
   ) => dom = (
     ~namespace as ns=Html,
     ~tagName,
-    ~properties as props=Js.Obj.empty(),
+    ~properties as props=Object.make(),
     ~children=[],
   ) => {
     let proxy = switch resolveNamespace(ns) {
