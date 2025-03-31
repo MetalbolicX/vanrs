@@ -6,7 +6,8 @@
     "res:clean": "rescript clean",
     "res:dev": "rescript -w",
     "build": "bun build ./src/Main.res.mjs --outdir ./dist --format esm",
-    "dev": "vite"
+    "dev": "vite",
+    "test": "retest test/**/*.res.mjs"
   },
   "keywords": [
     "rescript"
@@ -19,6 +20,7 @@
     "vanjs-core": "^1.5.3"
   },
   "devDependencies": {
+    "rescript-test": "^7.0.1",
     "vite": "^6.2.3"
   }
 }

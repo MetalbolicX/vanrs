@@ -21,7 +21,7 @@ Van.add(
       },
       ~tagName="button",
       ~children=[
-        Van.Tags.Text(""),
+        Van.Tags.Text("Give me a click!"),
         // Van.Tags.DomNode(Van.Tags.createTag(~tagName="span", ~children=[Van.Tags.Text("world!")])),
       ],
     ),
