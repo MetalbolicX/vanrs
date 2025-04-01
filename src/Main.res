@@ -10,21 +10,32 @@ let root = switch document->getElementById("root") {
 | None => Js.Exn.raiseError("Root element not found")
 }
 
-Van.add(
-  root,
-  [
-    Van.Tags.createTag(
-      ~properties={
-        "class": "test",
-        "id": "special",
-        "onclick": _ => Console.log("Hello clicked!"),
-      },
-      ~tagName="button",
-      ~children=[
-        Van.Tags.Text("Give me a click!"),
-        // Van.Tags.DomNode(Van.Tags.createTag(~tagName="span", ~children=[Van.Tags.Text("world!")])),
-      ],
-    ),
-    document->createElement("span")
-  ],
-)
+@get external getEventTarget: Dom.event => Dom.eventTarget = "target"
+@get external getInputValue: Dom.eventTarget => string = "value"
+
+let deriveState: unit => Van.dom = () => {
+  let vanText = Van.state("VanJs")
+  let length = Van.derive(() => vanText.val->String.length)
+  Van.Tags.createTag(
+    ~tagName="div",
+    ~children=[
+      Van.Tags.Text(`The length of the text is: ${length.val->Int.toString}`),
+      Van.Tags.DomNode(
+        Van.Tags.createTag(
+          ~tagName="input",
+          ~properties={
+            "type": "text",
+            "value": vanText,
+            "oninput": (event: Dom.event) => {
+              vanText.val = event->getEventTarget->getInputValue
+              Console.log2(length, vanText)
+            },
+          },
+        )
+      ),
+      // Van.Tags.Derived(length.val->Int.toString)
+    ],
+  )
+}
+
+Van.add(root, [deriveState()])

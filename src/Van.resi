@@ -2,7 +2,6 @@ type dom = Dom.element
 
 /**
  * Adds child DOM elements to a parent DOM element.
- *
  * @param parent The parent DOM element.
  * @param children An array of child DOM elements to add.
  */
@@ -10,7 +9,6 @@ let add: (dom, array<dom>) => unit
 
 /**
  * Creates a new state object.
- *
  * @param initialValue The initial value of the state.
  * @returns A state object with a mutable `val` field.
  */
@@ -19,7 +17,6 @@ let state: 'a => state<'a>
 
 /**
  * Creates a derived state object based on a derivation function.
- *
  * @param f A function that derives a value based on other states.
  * @returns A derived state object that updates automatically.
  */
@@ -53,7 +50,6 @@ module Tags: {
 
   /**
    * Creates a DOM element with optional properties and children.
-   *
    * @param namespace The namespace of the element (e.g., `Html`, `Svg`).
    * @param tagName The name of the tag (e.g., `"div"`, `"span"`).
    * @param properties An object containing attributes for the element.

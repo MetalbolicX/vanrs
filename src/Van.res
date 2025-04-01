@@ -7,7 +7,6 @@ type dom = Dom.element
 
 /**
  * Creates a text node in the DOM.
- *
  * @param document The global `document` object.
  * @param text The text content for the node.
  * @returns A DOM text node.
@@ -16,7 +15,6 @@ type dom = Dom.element
 
 /**
  * Adds child DOM elements to a parent DOM element.
- *
  * @param parent The parent DOM element.
  * @param children An array of child DOM elements to add.
  */
@@ -32,7 +30,6 @@ type state<'a> = {
 
 /**
  * Creates a new state object.
- *
  * @param initialValue The initial value of the state.
  * @returns A state object with a mutable `val` field.
  */
@@ -41,7 +38,6 @@ external state: 'a => state<'a> = "state"
 
 /**
  * Creates a derived state object based on a derivation function.
- *
  * @param f A function that derives a value based on other states.
  * @returns A derived state object that updates automatically.
  */
@@ -78,7 +74,6 @@ module Tags = {
 
   /**
    * Retrieves the `tags` proxy object for the default HTML namespace.
-   *
    * @returns A proxy object for creating HTML elements.
    */
   @module("vanjs-core") @scope("default")
@@ -86,7 +81,6 @@ module Tags = {
 
   /**
    * Retrieves the `tags` proxy object for a specific namespace.
-   *
    * @param namespaceURI The namespace URI (e.g., SVG or MathML).
    * @returns A proxy object for creating elements in the specified namespace.
    */
@@ -95,7 +89,6 @@ module Tags = {
 
   /**
    * Resolves the namespace to its string representation.
-   *
    * @param namespace The namespace type (e.g., `Html`, `Svg`).
    * @returns An optional string representing the namespace URI.
    */
@@ -110,7 +103,6 @@ module Tags = {
 
   /**
    * Normalizes a `child` into a DOM node.
-   *
    * @param child The child to normalize.
    * @returns A DOM node representing the child.
    */
@@ -128,7 +120,6 @@ module Tags = {
 
   /**
    * Filters out invalid children (e.g., empty strings, `Null`, `None`).
-   *
    * @param child The child to check.
    * @returns `true` if the child is valid, `false` otherwise.
    */
@@ -141,7 +132,6 @@ module Tags = {
 
   /**
    * Normalizes an array of children into an array of DOM nodes.
-   *
    * @param children The array of children to normalize.
    * @returns An array of DOM nodes.
    */
@@ -152,7 +142,6 @@ module Tags = {
 
   /**
    * Creates a DOM element with optional properties and children.
-   *
    * @param namespace The namespace of the element (e.g., `Html`, `Svg`).
    * @param tagName The name of the tag (e.g., `"div"`, `"span"`).
    * @param properties An object containing attributes for the element.

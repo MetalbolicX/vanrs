@@ -10,7 +10,7 @@ const DerivedState = () => {
     input({
       type: "text",
       value: text,
-      oninput: (e) => (text.val = e.target.value),
+      oninput: ({ target }) => (text.val = target.value),
     }),
     " is ",
     length,
@@ -18,4 +18,6 @@ const DerivedState = () => {
   );
 };
 
-van.add(document.body, DerivedState());
+const root = document!.getElementById("root") as HTMLElement;
+
+van.add(root, DerivedState());
