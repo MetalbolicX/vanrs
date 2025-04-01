@@ -17,7 +17,7 @@ let deriveState: unit => Van.dom = () => {
   let vanText = Van.state("VanJs")
   let length = Van.derive(() => vanText.val->String.length)
   Van.Tags.createTag(
-    ~tagName="div",
+    ~tagName="p",
     ~children=[
       Van.Tags.Text(`The length of the text is: ${length.val->Int.toString}`),
       Van.Tags.DomNode(
@@ -31,6 +31,7 @@ let deriveState: unit => Van.dom = () => {
               Console.log2(length, vanText)
             },
           },
+          ~children=[Van.Tags.Text("Input")],
         )
       ),
       // Van.Tags.Derived(length.val->Int.toString)

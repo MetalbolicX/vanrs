@@ -77,15 +77,15 @@ module Tags = {
    * @returns A proxy object for creating HTML elements.
    */
   @module("vanjs-core") @scope("default")
-  external tags: unit => tagsProxy = "tags"
+  external tags: (@unwrap [#Str(string) | #Unit(unit)]) => tagsProxy = "tags"
 
   /**
    * Retrieves the `tags` proxy object for a specific namespace.
    * @param namespaceURI The namespace URI (e.g., SVG or MathML).
    * @returns A proxy object for creating elements in the specified namespace.
    */
-  @module("vanjs-core") @scope("default")
-  external tagsNs: string => tagsProxy = "tags"
+  // @module("vanjs-core") @scope("default")
+  // external tagsNs: string => tagsProxy = "tags"
 
   /**
    * Resolves the namespace to its string representation.
@@ -160,8 +160,8 @@ module Tags = {
     ~children=[],
   ) => {
     let proxy = switch resolveNamespace(ns) {
-    | Some(n) => tagsNs(n)
-    | None => tags()
+    | Some(n) => tags(#Str(n))
+    | None => tags(#Unit())
     }
     let normChildren = normalizedChildren(children)
     %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(proxy, tagName, props, normChildren)
