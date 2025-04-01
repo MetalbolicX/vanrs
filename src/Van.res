@@ -3,7 +3,8 @@ type dom = Dom.element
 /**
  * Represents the global `document` object.
  */
-@val external document: Dom.document = "document"
+@val
+external document: Dom.document = "document"
 
 /**
  * Creates a text node in the DOM.
@@ -11,7 +12,8 @@ type dom = Dom.element
  * @param text The text content for the node.
  * @returns A DOM text node.
  */
-@send external createTextNode: (Dom.document, string) => dom = "createTextNode"
+@send
+external createTextNode: (Dom.document, string) => dom = "createTextNode"
 
 /**
  * Adds child DOM elements to a parent DOM element.
@@ -24,9 +26,7 @@ external add: (dom, array<dom>) => unit = "add"
 /**
  * Represents a state object with a mutable `val` field.
  */
-type state<'a> = {
-  mutable val: 'a,
-}
+type state<'a> = {mutable val: 'a}
 
 /**
  * Creates a new state object.
@@ -42,7 +42,7 @@ external state: 'a => state<'a> = "state"
  * @returns A derived state object that updates automatically.
  */
 @module("vanjs-core") @scope("default")
-external derive: (() => 'a) => state<'a> = "derive"
+external derive: (unit => 'a) => state<'a> = "derive"
 
 module Tags = {
   /**
@@ -68,24 +68,11 @@ module Tags = {
     | Derived(state<string>) // A derived state object
 
   /**
-   * Represents the `tags` proxy object for creating DOM elements.
-   */
-  type tagsProxy
-
-  /**
    * Retrieves the `tags` proxy object for the default HTML namespace.
    * @returns A proxy object for creating HTML elements.
    */
   @module("vanjs-core") @scope("default")
-  external tags: (@unwrap [#Str(string) | #Unit(unit)]) => tagsProxy = "tags"
-
-  /**
-   * Retrieves the `tags` proxy object for a specific namespace.
-   * @param namespaceURI The namespace URI (e.g., SVG or MathML).
-   * @returns A proxy object for creating elements in the specified namespace.
-   */
-  // @module("vanjs-core") @scope("default")
-  // external tagsNs: string => tagsProxy = "tags"
+  external tags: @unwrap [#Str(string) | #Unit(unit)] => 'a = "tags"
 
   /**
    * Resolves the namespace to its string representation.
@@ -125,7 +112,7 @@ module Tags = {
    */
   let removeChildInput: child => bool = child =>
     switch child {
-    | Text(str) when str->String.trim->String.equal("") => false
+    | Text(str) if str->String.trim->String.equal("") => false
     | Null | None => false
     | _ => true
     }
@@ -163,7 +150,13 @@ module Tags = {
     | Some(n) => tags(#Str(n))
     | None => tags(#Unit())
     }
+
     let normChildren = normalizedChildren(children)
-    %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(proxy, tagName, props, normChildren)
+    %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(
+      proxy,
+      tagName,
+      props,
+      normChildren,
+    )
   }
 }
