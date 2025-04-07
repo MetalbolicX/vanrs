@@ -1,27 +1,11 @@
-type dom = Dom.element
-
 /**
- * Represents the global `document` object.
- */
-@val
-external document: Dom.document = "document"
-
-/**
- * Creates a text node in the DOM.
- * @param document The global `document` object.
- * @param text The text content for the node.
- * @returns A DOM text node.
- */
-@send
-external createTextNode: (Dom.document, string) => dom = "createTextNode"
-
-/**
- * Adds child DOM elements to a parent DOM element.
+ * Adds child DOM elements or other valid children to a parent DOM element.
  * @param parent The parent DOM element.
- * @param children An array of child DOM elements to add.
+ * @param children A variadic list of children to add.
+ * @returns The parent DOM element for chaining.
  */
 @module("vanjs-core") @scope("default")
-external add: (dom, array<dom>) => unit = "add"
+external add: (Dom.element, 'a) => Dom.element = "add"
 
 /**
  * Represents a state object with a mutable `val` field.
@@ -55,23 +39,10 @@ module Tags = {
     | Custom(string)
 
   /**
-   * Represents a valid child for a DOM element.
-   */
-  type child =
-    | DomNode(dom) // A DOM node
-    | Text(string) // A plain string
-    | Number(float) // A number
-    | Boolean(bool) // A boolean
-    | Null // Null value
-    | None // None value
-    | State(state<string>) // A state object
-    | Derived(state<string>) // A derived state object
-
-  /**
    * Retrieves the `tags` proxy object for the default HTML namespace.
    * @returns A proxy object for creating HTML elements.
    */
-  @module("vanjs-core") @scope("default")
+  @module("vanjs-core")  @scope("default")
   external tags: @unwrap [#Str(string) | #Unit(unit)] => 'a = "tags"
 
   /**
@@ -89,45 +60,6 @@ module Tags = {
   }
 
   /**
-   * Normalizes a `child` into a DOM node.
-   * @param child The child to normalize.
-   * @returns A DOM node representing the child.
-   */
-  let normalizedChild: child => dom = child => {
-    switch child {
-    | DomNode(node) => node
-    | Text(str) => document->createTextNode(str)
-    | Number(num) => document->createTextNode(Float.toString(num))
-    | Boolean(bl) => document->createTextNode(string_of_bool(bl))
-    | State(st) => document->createTextNode(st.val->String.make)
-    | Derived(dv) => document->createTextNode(dv.val->String.make)
-    | None | Null => document->createTextNode("")
-    }
-  }
-
-  /**
-   * Filters out invalid children (e.g., empty strings, `Null`, `None`).
-   * @param child The child to check.
-   * @returns `true` if the child is valid, `false` otherwise.
-   */
-  let removeChildInput: child => bool = child =>
-    switch child {
-    | Text(str) if str->String.trim->String.equal("") => false
-    | Null | None => false
-    | _ => true
-    }
-
-  /**
-   * Normalizes an array of children into an array of DOM nodes.
-   * @param children The array of children to normalize.
-   * @returns An array of DOM nodes.
-   */
-  let normalizedChildren: array<child> => array<dom> = children =>
-    children
-    ->Array.filter(removeChildInput)
-    ->Array.map(normalizedChild)
-
-  /**
    * Creates a DOM element with optional properties and children.
    * @param namespace The namespace of the element (e.g., `Html`, `Svg`).
    * @param tagName The name of the tag (e.g., `"div"`, `"span"`).
@@ -139,8 +71,8 @@ module Tags = {
     ~namespace: namespace=?,
     ~tagName: string,
     ~properties: {..}=?,
-    ~children: array<child>=?,
-  ) => dom = (
+    ~children: array<'a>=?,
+  ) => Dom.element = (
     ~namespace as ns=Html,
     ~tagName,
     ~properties as props=Object.make(),
@@ -151,12 +83,11 @@ module Tags = {
     | None => tags(#Unit())
     }
 
-    let normChildren = normalizedChildren(children)
     %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(
       proxy,
       tagName,
       props,
-      normChildren,
+      children,
     )
   }
 }
