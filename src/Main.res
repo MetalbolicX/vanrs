@@ -35,15 +35,16 @@ let deriveState = () => {
     //   // Van.Tags.Derived(length.val->Int.toString)
     // ],
     ~children=[
-      // `The length of the text is: ${length.val->Int.toString}`,
-      Van.Tags.createTag(~tagName="input", ~properties={
+      Van.Tags.childFromString(`The length of the text is: ${length.val->Int.toString}`),
+      Van.Tags.childFromFloat(100.0),
+      Van.Tags.childFromElement(Van.Tags.createTag(~tagName="input", ~properties={
         "type": "text",
         "value": vanText,
         "oninput": (event: Dom.event) => {
           vanText.val = event->getEventTarget->getInputValue
           Console.log2(length, vanText)
         }
-      })
+      }))
     ]
   )
 }

@@ -38,12 +38,31 @@ module Tags = {
     | MathMl
     | Custom(string)
 
+  type child
+  external childFromElement: Dom.element => child = "%identity"
+  external childFromString: string => child = "%identity"
+  external childFromFloat: float => child = "%identity"
+  external childFromState: state<'a> => child = "%identity"
+  external childFromFunction: (unit => 'a) => child = "%identity"
+
+
   /**
    * Retrieves the `tags` proxy object for the default HTML namespace.
    * @returns A proxy object for creating HTML elements.
    */
   @module("vanjs-core")  @scope("default")
   external tags: @unwrap [#Str(string) | #Unit(unit)] => 'a = "tags"
+
+  // let processChild = (child: child) => {
+  //   switch child {
+  //   | #DomElement(c) => c
+  //   | #Text(s) => s
+  //   | #Number(n) => n
+  //   // | #State(s) => s
+  //   // | #Function(f) => f
+  //   }
+  // }
+
 
   /**
    * Resolves the namespace to its string representation.
@@ -71,7 +90,7 @@ module Tags = {
     ~namespace: namespace=?,
     ~tagName: string,
     ~properties: {..}=?,
-    ~children: array<'a>=?,
+    ~children: array<child>=?,
   ) => Dom.element = (
     ~namespace as ns=Html,
     ~tagName,
@@ -83,11 +102,14 @@ module Tags = {
     | None => tags(#Unit())
     }
 
+    // let processedChildren = children->Array.map(processedChild)
+
     %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(
       proxy,
       tagName,
       props,
       children,
+      // processedChildren
     )
   }
 }
