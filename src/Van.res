@@ -39,7 +39,13 @@ module Tags = {
     | Custom(string)
 
   type child
-  external childFrom: @unwrap [#Str(string) | #Number(float)] => child = "%identity"
+  external childFrom: @unwrap [
+    #Str(string)
+    | #Number(float)
+    | #Int(int)
+    | #Dom(Dom.element)
+    | #Boolean(bool)
+    ] => child = "%identity"
   // external childFromElement: Dom.element => child = "%identity"
   // external childFromString: string => child = "%identity"
   // external childFromFloat: float => child = "%identity"

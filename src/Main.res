@@ -12,8 +12,8 @@ let root = switch getElementById("root") {
 // @get external getInputValue: Dom.event_like<Dom.htmlInputElement> => string = "value"
 
 let deriveState = () => {
-  // let vanText = Van.state("VanJs")
-  // let length = Van.derive(() => vanText.val->String.length)
+  let vanText = Van.state("VanJs")
+  let length = Van.derive(() => vanText.val->String.length)
   Van.Tags.createTag(
     ~tagName="span",
     // ~children=[
@@ -38,14 +38,15 @@ let deriveState = () => {
       // Van.Tags.childFromString(`The length of the text is: ${length.val->Int.toString}`),
       Van.Tags.childFrom(#Str("Hola mundo")),
       Van.Tags.childFrom(#Number(100.0)),
-      // Van.Tags.childFromElement(Van.Tags.createTag(~tagName="input", ~properties={
-      //   "type": "text",
-      //   "value": vanText,
-      //   "oninput": (event: Dom.event) => {
-      //     vanText.val = event->getEventTarget->getInputValue
-      //     Console.log2(length, vanText)
-      //   }
-      // }))
+      Van.Tags.childFrom(#Boolean(true)),
+      Van.Tags.childFrom(#Dom(Van.Tags.createTag(~tagName="input", ~properties={
+        "type": "text",
+        "value": vanText,
+        "oninput": (event: Dom.event) => {
+          vanText.val = event->getEventTarget->getInputValue
+          Console.log2(length, vanText)
+        }
+      })))
     ]
   )
 }
