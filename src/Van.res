@@ -39,11 +39,12 @@ module Tags = {
     | Custom(string)
 
   type child
-  external childFromElement: Dom.element => child = "%identity"
-  external childFromString: string => child = "%identity"
-  external childFromFloat: float => child = "%identity"
-  external childFromState: state<'a> => child = "%identity"
-  external childFromFunction: (unit => 'a) => child = "%identity"
+  external childFrom: @unwrap [#Str(string) | #Number(float)] => child = "%identity"
+  // external childFromElement: Dom.element => child = "%identity"
+  // external childFromString: string => child = "%identity"
+  // external childFromFloat: float => child = "%identity"
+  // external childFromState: state<'a> => child = "%identity"
+  // external childFromFunction: (unit => 'a) => child = "%identity"
 
 
   /**
@@ -53,15 +54,21 @@ module Tags = {
   @module("vanjs-core")  @scope("default")
   external tags: @unwrap [#Str(string) | #Unit(unit)] => 'a = "tags"
 
-  // let processChild = (child: child) => {
-  //   switch child {
-  //   | #DomElement(c) => c
-  //   | #Text(s) => s
-  //   | #Number(n) => n
-  //   // | #State(s) => s
-  //   // | #Function(f) => f
-  //   }
-  // }
+  // Helper function to unwrap the polymorphic variant
+  let unwrapChild = (child: child): 'a => {
+    switch Js.Json.classify(Obj.magic(child)) {
+    | JSONObject(dict) =>
+      switch Js.Dict.get(dict, "NAME") {
+      | Some(_) =>
+        switch Js.Dict.get(dict, "VAL") {
+        | Some(val) => Obj.magic(val)
+        | None => Obj.magic(child)
+        }
+      | None => Obj.magic(child)
+      }
+    | _ => Obj.magic(child)
+    }
+  }
 
 
   /**
@@ -101,15 +108,15 @@ module Tags = {
     | Some(n) => tags(#Str(n))
     | None => tags(#Unit())
     }
-
-    // let processedChildren = children->Array.map(processedChild)
+    Console.log2("Hola", children)
+    let processedChildren = children->Array.map(unwrapChild)
 
     %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(
       proxy,
       tagName,
       props,
-      children,
-      // processedChildren
+      // children,
+      processedChildren
     )
   }
 }
