@@ -55,18 +55,18 @@ module Tags = {
   external tags: @unwrap [#Str(string) | #Unit(unit)] => 'a = "tags"
 
   // Helper function to unwrap the polymorphic variant
-  let unwrapChild = (child: child): 'a => {
-    switch Js.Json.classify(Obj.magic(child)) {
+  let unwrapChild: child => 'a = child => {
+    switch Js.Json.classify(child->Obj.magic) {
     | JSONObject(dict) =>
-      switch Js.Dict.get(dict, "NAME") {
+      switch dict->Dict.get("NAME") {
       | Some(_) =>
-        switch Js.Dict.get(dict, "VAL") {
-        | Some(val) => Obj.magic(val)
-        | None => Obj.magic(child)
+        switch dict->Dict.get("VAL") {
+        | Some(val) => val->Obj.magic
+        | None => child->Obj.magic
         }
-      | None => Obj.magic(child)
+      | None => child->Obj.magic
       }
-    | _ => Obj.magic(child)
+    | _ => child->Obj.magic
     }
   }
 
