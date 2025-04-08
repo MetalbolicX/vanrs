@@ -16,29 +16,8 @@ let deriveState = () => {
   let length = Van.derive(() => vanText.val->String.length)
   Van.Tags.createTag(
     ~tagName="span",
-    // ~children=[
-    //   Van.Tags.Text(`The length of the text is: ${length.val->Int.toString}`),
-    //   Van.Tags.DomNode(
-    //     Van.Tags.createTag(
-    //       ~tagName="input",
-    //       ~properties={
-    //         "type": "text",
-    //         "value": vanText,
-    //         "oninput": (event: Dom.event) => {
-    //           vanText.val = event->getEventTarget->getInputValue
-    //           Console.log2(length, vanText)
-    //         },
-    //       },
-    //       ~children=[Van.Tags.Text("Input")],
-    //     )
-    //   ),
-    //   // Van.Tags.Derived(length.val->Int.toString)
-    // ],
     ~children=[
-      // Van.Tags.childFromString(`The length of the text is: ${length.val->Int.toString}`),
-      Van.Tags.childFrom(#Str("Hola mundo")),
-      Van.Tags.childFrom(#Number(100.0)),
-      Van.Tags.childFrom(#Boolean(true)),
+      Van.Tags.childFrom(#Str(`The length of the text is: `)),
       Van.Tags.childFrom(#Dom(Van.Tags.createTag(~tagName="input", ~properties={
         "type": "text",
         "value": vanText,
@@ -46,7 +25,8 @@ let deriveState = () => {
           vanText.val = event->getEventTarget->getInputValue
           Console.log2(length, vanText)
         }
-      })))
+      }))),
+      Van.Tags.childFrom(#State(length))
     ]
   )
 }

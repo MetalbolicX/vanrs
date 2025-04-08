@@ -22,7 +22,7 @@ external state: 'a => state<'a> = "state"
 
 /**
  * Creates a derived state object based on a derivation function.
- * @param f A function that derives a value based on other states.
+ * @param deriveFn A function that derives a value based on other states.
  * @returns A derived state object that updates automatically.
  */
 @module("vanjs-core") @scope("default")
@@ -38,35 +38,42 @@ module Tags = {
     | MathMl
     | Custom(string)
 
+  /**
+   * Represents a child element with a name and value.
+   */
   type child<'a> = {
     "NAME": string,
     "VAL": 'a
   }
 
+  /**
+   * Converts various types to a child element.
+   * @param value The value to convert (string, number, DOM element, boolean, or state).
+   * @returns A child element.
+   */
   external childFrom: @unwrap [
     #Str(string)
     | #Number(float)
     | #Int(int)
     | #Dom(Dom.element)
     | #Boolean(bool)
+    | #State(state<'a>)
     ] => child<'a> = "%identity"
-  // external childFromElement: Dom.element => child = "%identity"
-  // external childFromString: string => child = "%identity"
-  // external childFromFloat: float => child = "%identity"
-  // external childFromState: state<'a> => child = "%identity"
-  // external childFromFunction: (unit => 'a) => child = "%identity"
 
   /**
-   * Retrieves the `tags` proxy object for the default HTML namespace.
-   * @returns A proxy object for creating HTML elements.
+   * Retrieves the `tags` proxy object for the specified namespace.
+   * @param namespace The namespace string or unit for default HTML namespace.
+   * @returns A proxy object for creating elements in the specified namespace.
    */
   @module("vanjs-core")  @scope("default")
   external tags: @unwrap [#Str(string) | #Unit(unit)] => 'a = "tags"
 
-  // Helper function to unwrap the polymorphic variant
+  /**
+   * Unwraps the value from a child element.
+   * @param child The child element to unwrap.
+   * @returns The unwrapped value.
+   */
   let unwrapChild: child<'a> => 'a = child =>  child["VAL"]
-
-
 
   /**
    * Resolves the namespace to its string representation.
@@ -96,23 +103,21 @@ module Tags = {
     ~properties: {..}=?,
     ~children: array<child<'a>>=?,
   ) => Dom.element = (
-    ~namespace as ns=Html,
+    ~namespace=Html,
     ~tagName,
-    ~properties as props=Object.make(),
+    ~properties=Object.make(),
     ~children=[],
   ) => {
-    let proxy = switch resolveNamespace(ns) {
-    | Some(n) => tags(#Str(n))
+    let namespaceProxy = switch resolveNamespace(namespace) {
+    | Some(ns) => tags(#Str(ns))
     | None => tags(#Unit())
     }
-    let processedChildren = children->Array.map(unwrapChild)
 
     %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(
-      proxy,
+      namespaceProxy,
       tagName,
-      props,
-      // children,
-      processedChildren
+      properties,
+      children->Array.map(unwrapChild)
     )
   }
 }
