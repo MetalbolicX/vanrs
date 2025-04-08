@@ -38,20 +38,23 @@ module Tags = {
     | MathMl
     | Custom(string)
 
-  type child
+  type child<'a> = {
+    "NAME": string,
+    "VAL": 'a
+  }
+
   external childFrom: @unwrap [
     #Str(string)
     | #Number(float)
     | #Int(int)
     | #Dom(Dom.element)
     | #Boolean(bool)
-    ] => child = "%identity"
+    ] => child<'a> = "%identity"
   // external childFromElement: Dom.element => child = "%identity"
   // external childFromString: string => child = "%identity"
   // external childFromFloat: float => child = "%identity"
   // external childFromState: state<'a> => child = "%identity"
   // external childFromFunction: (unit => 'a) => child = "%identity"
-
 
   /**
    * Retrieves the `tags` proxy object for the default HTML namespace.
@@ -61,20 +64,8 @@ module Tags = {
   external tags: @unwrap [#Str(string) | #Unit(unit)] => 'a = "tags"
 
   // Helper function to unwrap the polymorphic variant
-  let unwrapChild: child => 'a = child => {
-    switch Js.Json.classify(child->Obj.magic) {
-    | JSONObject(dict) =>
-      switch dict->Dict.get("NAME") {
-      | Some(_) =>
-        switch dict->Dict.get("VAL") {
-        | Some(val) => val->Obj.magic
-        | None => child->Obj.magic
-        }
-      | None => child->Obj.magic
-      }
-    | _ => child->Obj.magic
-    }
-  }
+  let unwrapChild: child<'a> => 'a = child =>  child["VAL"]
+
 
 
   /**
@@ -103,7 +94,7 @@ module Tags = {
     ~namespace: namespace=?,
     ~tagName: string,
     ~properties: {..}=?,
-    ~children: array<child>=?,
+    ~children: array<child<'a>>=?,
   ) => Dom.element = (
     ~namespace as ns=Html,
     ~tagName,
@@ -114,7 +105,6 @@ module Tags = {
     | Some(n) => tags(#Str(n))
     | None => tags(#Unit())
     }
-    Console.log2("Hola", children)
     let processedChildren = children->Array.map(unwrapChild)
 
     %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(
