@@ -28,6 +28,15 @@ external state: 'a => state<'a> = "state"
 @module("vanjs-core") @scope("default")
 external derive: (unit => 'a) => state<'a> = "derive"
 
+/**
+ * Hydrates the SSR component dom with the hydration function f.
+ * @param dom The root DOM node of the SSR component we want to hydrate.
+ * @param f The hydration function, which takes a DOM node as its input parameter and returns the new version of the DOM node.
+ * @returns undefined
+ */
+@module("vanjs-core") @scope("default")
+external hydrate: (Dom.element, Dom.element => Dom.element) => unit = "hydrate"
+
 module Tags = {
   /**
    * Represents the namespace of an element.

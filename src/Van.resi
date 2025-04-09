@@ -26,6 +26,14 @@ let state: 'a => state<'a>
  */
 let derive: (unit => 'a) => state<'a>
 
+/**
+ * Hydrates the SSR component dom with the hydration function f.
+ * @param dom The root DOM node of the SSR component we want to hydrate.
+ * @param f The hydration function, which takes a DOM node as its input parameter and returns the new version of the DOM node.
+ * @returns undefined
+ */
+let hydrate: (Dom.element, Dom.element => Dom.element) => unit
+
 module Tags: {
   /**
    * Represents the namespace of an element.
