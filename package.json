@@ -7,7 +7,7 @@
     "res:dev": "rescript -w",
     "build": "bun build ./src/Main.res.mjs --outdir ./dist --format esm",
     "dev": "vite",
-    "test": "retest test/**/*.res.mjs"
+    "test": "retest --with-dom test/**/*.res.mjs"
   },
   "keywords": [
     "rescript"
