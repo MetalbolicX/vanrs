@@ -5,5 +5,6 @@
 .merlin
 .qodo
 dist/
+out/
 src/**/*.res.mjs
 test/**/*.res.mjs
