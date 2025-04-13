@@ -129,7 +129,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgements
 
-- [ReScript](https://rescript-lang.org/) for the excellent type-safe language
-- [VanJS](https://vanjs.org/) for the lightweight reactive UI framework
-
-```
+- [ReScript](https://rescript-lang.org/) for the excellent type-safe language.
+- [VanJS](https://vanjs.org/) for the lightweight reactive UI framework.
