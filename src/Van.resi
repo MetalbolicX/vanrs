@@ -55,7 +55,7 @@ module Tags: {
    * @returns A child element.
    */
   let childFrom: @unwrap [
-    #Str(string)
+    #Text(string)
     | #Number(float)
     | #Int(int)
     | #Dom(Dom.element)

@@ -1,5 +1,5 @@
 {
-  "name": "van",
+  "name": "rescript-vanjs",
   "sources": [
     { "dir": "src", "subdirs": true },
     { "dir": "test", "subdirs": true, "type": "dev" }

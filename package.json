@@ -1,5 +1,5 @@
 {
-  "name": "van",
+  "name": "rescript-vanjs",
   "version": "0.0.0",
   "scripts": {
     "res:build": "rescript",

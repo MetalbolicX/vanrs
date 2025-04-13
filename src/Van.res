@@ -61,7 +61,7 @@ module Tags = {
    * @returns A child element.
    */
   external childFrom: @unwrap [
-    #Str(string)
+    #Text(string)
     | #Number(float)
     | #Int(int)
     | #Dom(Dom.element)

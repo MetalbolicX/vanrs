@@ -17,13 +17,12 @@ let deriveState = () => {
   Van.Tags.createTag(
     ~tagName="span",
     ~children=[
-      Van.Tags.childFrom(#Str(`The length of the text is: `)),
+      Van.Tags.childFrom(#Text(`The length of the text is: `)),
       Van.Tags.childFrom(#Dom(Van.Tags.createTag(~tagName="input", ~properties={
         "type": "text",
         "value": vanText,
         "oninput": (event: Dom.event) => {
           vanText.val = event->getEventTarget->getInputValue
-          Console.log2(length, vanText)
         }
       }))),
       Van.Tags.childFrom(#State(length))
