@@ -15,7 +15,13 @@
     "vanjs",
     "vanjs-core"
   ],
-  "author": "",
+  "author": {
+    "name": "José Martínez Santana"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/MetalbolicX/rescript-vanjs"
+  },
   "license": "MIT",
   "dependencies": {
     "@rescript/core": "^1.6.1",
