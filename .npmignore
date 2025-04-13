@@ -1,0 +1,9 @@
+/node_modules/
+/lib/
+.bsb.lock
+.merlin
+.qodo
+out/
+src/
+test/
+index.html
