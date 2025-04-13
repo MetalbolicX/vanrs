@@ -1,4 +1,4 @@
-node_modules/
+node_modules
 lib/
 .bsb.lock
 .merlin
@@ -8,3 +8,4 @@ src/**/*.res.mjs
 test/
 index.html
 src/Main.res
+ts/
