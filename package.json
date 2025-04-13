@@ -1,6 +1,7 @@
 {
   "name": "rescript-vanjs",
   "version": "1.0.1",
+  "main": "./src/Van.res",
   "scripts": {
     "res:build": "rescript",
     "res:clean": "rescript clean",

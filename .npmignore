@@ -1,9 +1,10 @@
-/node_modules/
-/lib/
+node_modules/
+lib/
 .bsb.lock
 .merlin
 .qodo
 out/
-src/
+src/**/*.res.mjs
 test/
 index.html
+src/Main.res
