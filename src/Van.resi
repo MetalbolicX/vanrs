@@ -61,6 +61,8 @@ module Tags: {
     | #Dom(Dom.element)
     | #Boolean(bool)
     | #State(state<'a>)
+    | #Nil(Null.t<'a>)
+    | #State(state<'a>)
   ] => child<'a>
 
   /**
