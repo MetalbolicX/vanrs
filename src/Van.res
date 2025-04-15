@@ -37,16 +37,6 @@ external derive: (unit => 'a) => state<'a> = "derive"
 @module("vanjs-core") @scope("default")
 external hydrate: (Dom.element, Dom.element => Dom.element) => unit = "hydrate"
 
-module Tags = {
-  /**
-   * Represents the namespace of an element.
-   */
-  type namespace =
-    | Html
-    | Svg
-    | MathMl
-    | Custom(string)
-
   /**
    * Represents a child element with a name and value.
    */
@@ -69,6 +59,16 @@ module Tags = {
     | #State(state<'a>)
     | #Nil(Null.t<'a>)
     ] => child<'a> = "%identity"
+
+module Tags = {
+  /**
+   * Represents the namespace of an element.
+   */
+  type namespace =
+    | Html
+    | Svg
+    | MathMl
+    | Custom(string)
 
   /**
    * Retrieves the `tags` proxy object for the specified namespace.

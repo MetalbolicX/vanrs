@@ -3,31 +3,29 @@ external getElementById: string => option<Dom.element> = "getElementById"
 
 let root = switch getElementById("root") {
 | Some(el) => el
-| None => Js.Exn.raiseError("Root element not found")
+| None => Exn.raiseError("Root element not found")
 }
 
 @get external getEventTarget: Dom.event => Dom.eventTarget = "target"
 @get external getInputValue: Dom.eventTarget => string = "value"
-// @get external getEventTarget: Dom.event => Dom.eventTarget_like<Dom.htmlInputElement> = "target"
-// @get external getInputValue: Dom.event_like<Dom.htmlInputElement> => string = "value"
 
-let deriveState = () => {
+let deriveState: unit => Dom.element = () => {
   let vanText = Van.state("VanJs")
   let length = Van.derive(() => vanText.val->String.length)
   Van.Tags.createTag(
     ~tagName="span",
     ~children=[
-      Van.Tags.childFrom(#Text(`The length of the text is: `)),
-      Van.Tags.childFrom(#Dom(Van.Tags.createTag(~tagName="input", ~properties={
+      Van.childFrom(#Text(`The length of the text is: `)),
+      Van.childFrom(#Dom(Van.Tags.createTag(~tagName="input", ~properties={
         "type": "text",
         "value": vanText,
         "oninput": (event: Dom.event) => {
           vanText.val = event->getEventTarget->getInputValue
         }
       }))),
-      Van.Tags.childFrom(#State(length))
+      Van.childFrom(#State(length))
     ]
   )
 }
 
-Van.add(root, [deriveState()])->ignore
+Van.add(root, deriveState())->ignore

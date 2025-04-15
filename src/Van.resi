@@ -34,20 +34,13 @@ let derive: (unit => 'a) => state<'a>
  */
 let hydrate: (Dom.element, Dom.element => Dom.element) => unit
 
-module Tags: {
-  /**
-   * Represents the namespace of an element.
-   */
-  type namespace =
-    | Html
-    | Svg
-    | MathMl
-    | Custom(string)
-
   /**
    * Represents a child element with a name and value.
    */
-  type child<'a>
+  type child<'a> = {
+    "NAME": string,
+    "VAL": 'a
+  }
 
   /**
    * Converts various types to a child element.
@@ -64,6 +57,16 @@ module Tags: {
     | #Nil(Null.t<'a>)
     | #State(state<'a>)
   ] => child<'a>
+
+module Tags: {
+  /**
+   * Represents the namespace of an element.
+   */
+  type namespace =
+    | Html
+    | Svg
+    | MathMl
+    | Custom(string)
 
   /**
    * Creates a DOM element with optional properties and children.

@@ -70,7 +70,7 @@ external getElementById: string => option<Dom.element> = "getElementById"
 
 let root = switch getElementById("root") {
 | Some(el) => el
-| None => Js.Exn.raiseError("Root element not found")
+| None => Exn.raiseError("Root element not found")
 }
 
 @get external getEventTarget: Dom.event => Dom.eventTarget = "target"
