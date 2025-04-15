@@ -37,9 +37,11 @@ external derive: (unit => 'a) => state<'a> = "derive"
 @module("vanjs-core") @scope("default")
 external hydrate: (Dom.element, Dom.element => Dom.element) => unit = "hydrate"
 
+
+module Child = {
   /**
    * Represents a child element with a name and value.
-   */
+    */
   type child<'a> = {
     "NAME": string,
     "VAL": 'a
@@ -47,9 +49,9 @@ external hydrate: (Dom.element, Dom.element => Dom.element) => unit = "hydrate"
 
   /**
    * Converts various types to a child element.
-   * @param value The value to convert (string, number, DOM element, boolean, or state).
-   * @returns A child element.
-   */
+    * @param value The value to convert (string, number, DOM element, boolean, or state).
+    * @returns A child element.
+    */
   external childFrom: @unwrap [
     #Text(string)
     | #Number(float)
@@ -59,6 +61,57 @@ external hydrate: (Dom.element, Dom.element => Dom.element) => unit = "hydrate"
     | #State(state<'a>)
     | #Nil(Null.t<'a>)
     ] => child<'a> = "%identity"
+
+  /**
+   * Creates a child element from a string.
+   * @param str The string value to convert.
+   * @returns A child element representing the text.
+   */
+  let text: string => child<'a> = str => childFrom(#Text(str))
+
+  /**
+   * Creates a child element from a float number.
+   * @param n The float number to convert.
+   * @returns A child element representing the number.
+   */
+  let number: float => child<'a> = n => childFrom(#Number(n))
+
+  /**
+   * Creates a child element from an integer.
+   * @param i The integer to convert.
+   * @returns A child element representing the integer.
+   */
+  let integer: int => child<'a> = i => childFrom(#Int(i))
+
+  /**
+   * Creates a child element from a DOM element.
+   * @param el The DOM element to convert.
+   * @returns A child element representing the DOM element.
+   */
+  let dom: Dom.element => child<'a> = el => childFrom(#Dom(el))
+
+  /**
+   * Creates a child element from a boolean value.
+   * @param b The boolean value to convert.
+   * @returns A child element representing the boolean.
+   */
+  let boolean: bool => child<'a> = b => childFrom(#Boolean(b))
+
+  /**
+   * Creates a child element from a state object.
+   * @param st The state object to convert.
+   * @returns A child element representing the state.
+   */
+  let stateChild: state<'a> => child<'a> = st => childFrom(#State(st))
+
+  /**
+   * Creates a child element from a null value.
+   * @param n The null value to convert.
+   * @returns A child element representing the null value.
+   */
+  let nil: Null.t<'a> => child<'a> = n => childFrom(#Nil(n))
+}
+
 
 module Tags = {
   /**
@@ -83,7 +136,7 @@ module Tags = {
    * @param child The child element to unwrap.
    * @returns The unwrapped value.
    */
-  let unwrapChild: child<'a> => 'a = child =>  child["VAL"]
+  let unwrapChild: Child.child<'a> => 'a = child =>  child["VAL"]
 
   /**
    * Resolves the namespace to its string representation.
@@ -111,7 +164,7 @@ module Tags = {
     ~namespace: namespace=?,
     ~tagName: string,
     ~properties: {..}=?,
-    ~children: array<child<'a>>=?,
+    ~children: array<Child.child<'a>>=?,
   ) => Dom.element = (
     ~namespace=Html,
     ~tagName,

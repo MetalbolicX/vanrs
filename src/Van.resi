@@ -34,29 +34,25 @@ let derive: (unit => 'a) => state<'a>
  */
 let hydrate: (Dom.element, Dom.element => Dom.element) => unit
 
+module Child: {
   /**
-   * Represents a child element with a name and value.
-   */
+  * Represents a child element with a name and value.
+  */
   type child<'a> = {
     "NAME": string,
     "VAL": 'a
   }
 
-  /**
-   * Converts various types to a child element.
-   * @param value The value to convert (string, number, DOM element, boolean, or state).
-   * @returns A child element.
-   */
-  let childFrom: @unwrap [
-    #Text(string)
-    | #Number(float)
-    | #Int(int)
-    | #Dom(Dom.element)
-    | #Boolean(bool)
-    | #State(state<'a>)
-    | #Nil(Null.t<'a>)
-    | #State(state<'a>)
-  ] => child<'a>
+  // Helper childFrom functions to reduce the boileplate
+  // and convert the types of child elements
+  let text: string => child<'a>
+  let number: float => child<'a>
+  let integer: int => child<'a>
+  let dom: Dom.element => child<'a>
+  let boolean: bool => child<'a>
+  let stateChild: state<'a> => child<'a>
+  let nil: Null.t<'a> => child<'a>
+}
 
 module Tags: {
   /**
@@ -80,6 +76,6 @@ module Tags: {
     ~namespace: namespace=?,
     ~tagName: string,
     ~properties: {..}=?,
-    ~children: array<child<'a>>=?,
+    ~children: array<Child.child<'a>>=?,
   ) => Dom.element
 }
