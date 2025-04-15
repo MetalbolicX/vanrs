@@ -31,6 +31,10 @@ let deriveState: unit => Dom.element = () => {
       Van.Child.stateChild(length),
     ],
   )
+  // Van.Dom.createElement("span")
+  // ->Van.Dom.addChild(Van.Child.text(vanText))
+  // ->Van.Dom.addChild(Van.Child.stateChild(length))
+  // ->Van.Dom.build
 }
 
 Van.add(root, deriveState())->ignore

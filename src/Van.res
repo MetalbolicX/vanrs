@@ -13,6 +13,7 @@ external add: (Dom.element, 'a) => Dom.element = "add"
 type state<'a> = {mutable val: 'a}
 
 /**
+
  * Creates a new state object.
  * @param initialValue The initial value of the state.
  * @returns A state object with a mutable `val` field.
@@ -37,81 +38,78 @@ external derive: (unit => 'a) => state<'a> = "derive"
 @module("vanjs-core") @scope("default")
 external hydrate: (Dom.element, Dom.element => Dom.element) => unit = "hydrate"
 
-
 module Child = {
   /**
    * Represents a child element with a name and value.
     */
-  type child<'a> = {
-    "NAME": string,
-    "VAL": 'a
-  }
+  type c<'a> = {"NAME": string, "VAL": 'a}
 
   /**
    * Converts various types to a child element.
     * @param value The value to convert (string, number, DOM element, boolean, or state).
     * @returns A child element.
     */
-  external childFrom: @unwrap [
-    #Text(string)
+  external childFrom: @unwrap
+  [
+    | #Text(string)
     | #Number(float)
     | #Int(int)
     | #Dom(Dom.element)
     | #Boolean(bool)
     | #State(state<'a>)
     | #Nil(Null.t<'a>)
-    ] => child<'a> = "%identity"
+  ] => c<'a> = "%identity"
 
   /**
    * Creates a child element from a string.
    * @param str The string value to convert.
    * @returns A child element representing the text.
    */
-  let text: string => child<'a> = str => childFrom(#Text(str))
+  let text: string => c<'a> = str => childFrom(#Text(str))
 
   /**
    * Creates a child element from a float number.
    * @param n The float number to convert.
    * @returns A child element representing the number.
    */
-  let number: float => child<'a> = n => childFrom(#Number(n))
+  let number: float => c<'a> = n => childFrom(#Number(n))
 
   /**
    * Creates a child element from an integer.
    * @param i The integer to convert.
    * @returns A child element representing the integer.
    */
-  let integer: int => child<'a> = i => childFrom(#Int(i))
+  let integer: int => c<'a> = i => childFrom(#Int(i))
 
   /**
    * Creates a child element from a DOM element.
    * @param el The DOM element to convert.
    * @returns A child element representing the DOM element.
    */
-  let dom: Dom.element => child<'a> = el => childFrom(#Dom(el))
+  let dom: Dom.element => c<'a> = el => childFrom(#Dom(el))
 
   /**
    * Creates a child element from a boolean value.
    * @param b The boolean value to convert.
    * @returns A child element representing the boolean.
    */
-  let boolean: bool => child<'a> = b => childFrom(#Boolean(b))
+  let boolean: bool => c<'a> = b => childFrom(#Boolean(b))
 
   /**
    * Creates a child element from a state object.
    * @param st The state object to convert.
    * @returns A child element representing the state.
    */
-  let stateChild: state<'a> => child<'a> = st => childFrom(#State(st))
+  let stateChild: state<'a> => c<'a> = st => childFrom(#State(st))
 
   /**
+
    * Creates a child element from a null value.
    * @param n The null value to convert.
    * @returns A child element representing the null value.
    */
-  let nil: Null.t<'a> => child<'a> = n => childFrom(#Nil(n))
+  let nil: Null.t<'a> => c<'a> = n => childFrom(#Nil(n))
 }
-
 
 module Tags = {
   /**
@@ -128,7 +126,7 @@ module Tags = {
    * @param namespace The namespace string or unit for default HTML namespace.
    * @returns A proxy object for creating elements in the specified namespace.
    */
-  @module("vanjs-core")  @scope("default")
+  @module("vanjs-core") @scope("default")
   external tags: @unwrap [#Str(string) | #Unit(unit)] => 'a = "tags"
 
   /**
@@ -136,7 +134,7 @@ module Tags = {
    * @param child The child element to unwrap.
    * @returns The unwrapped value.
    */
-  let unwrapChild: Child.child<'a> => 'a = child =>  child["VAL"]
+  let unwrapChild: Child.c<'a> => 'a = child => child["VAL"]
 
   /**
    * Resolves the namespace to its string representation.
@@ -164,13 +162,8 @@ module Tags = {
     ~namespace: namespace=?,
     ~tagName: string,
     ~properties: {..}=?,
-    ~children: array<Child.child<'a>>=?,
-  ) => Dom.element = (
-    ~namespace=Html,
-    ~tagName,
-    ~properties=Object.make(),
-    ~children=[],
-  ) => {
+    ~children: array<Child.c<'a>>=?,
+  ) => Dom.element = (~namespace=Html, ~tagName, ~properties=Object.make(), ~children=[]) => {
     let namespaceProxy = switch resolveNamespace(namespace) {
     | Some(ns) => tags(#Str(ns))
     | None => tags(#Unit())
@@ -180,7 +173,74 @@ module Tags = {
       namespaceProxy,
       tagName,
       properties,
-      children->Array.map(unwrapChild)
+      children->Array.map(unwrapChild),
     )
   }
+}
+
+// module Dom = {
+//   type builder = {
+//     tag: string,
+//     namespace: Tags.namespace,
+//     props: option<{..}>,
+//     children: array<Child.child<'a>>,
+//   }
+
+//   let createElement: (string, ~namespace: Tags.namespace=?) => builder = (
+//     tag,
+//     ~namespace=Tags.Html,
+//   ) => {
+//     tag,
+//     namespace,
+//     props: None,
+//     children: [],
+//   }
+
+//   let withProps: (builder, option<{..}>) => builder = (bld, props) => {
+//     ...bld, props: Some(props)
+//   }
+
+//   let addChild: (builder, Child.child<'a>) => builder = (bld, child) => {
+//     ...bld, children: [...bld.children, ...child]
+//   }
+
+//   let build: builder => Dom.element = bld => Tags.createTag(
+//     ~tagName=bld.tagName,
+//     ~namespace=bld.namespace,
+//     ~children=bld.children,
+//     ~properties=bld.props
+//   )
+// }
+module Dom = {
+  type domBuilder = {
+    tag: string,
+    namespace: Tags.namespace,
+    props?: {..},
+    children?: array<Child.c<'a>>
+  }
+
+  let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder = (
+    tag,
+    ~namespace=Tags.Html,
+  ) => {
+    tag,
+    namespace,
+    props: None,
+    children: None,
+  }
+
+  let withProps: (domBuilder, option<{..}>) => domBuilder = (builder, props) => {
+    ...builder, props: Some(props)
+  }
+
+  let addChild: (domBuilder, Child.c<'a>) => domBuilder = (builder, child) => {
+    ...builder, children: [...builder.children, ...child]
+  }
+
+  let build: domBuilder => Dom.element = builder => Tags.createTag(
+    ~tagName=builder.tagName,
+    ~namespace=builder.namespace,
+    ~children=builder.children,
+    ~properties=builder.props
+  )
 }

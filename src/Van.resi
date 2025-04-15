@@ -38,20 +38,20 @@ module Child: {
   /**
   * Represents a child element with a name and value.
   */
-  type child<'a> = {
+  type c<'a> = {
     "NAME": string,
     "VAL": 'a
   }
 
   // Helper childFrom functions to reduce the boileplate
   // and convert the types of child elements
-  let text: string => child<'a>
-  let number: float => child<'a>
-  let integer: int => child<'a>
-  let dom: Dom.element => child<'a>
-  let boolean: bool => child<'a>
-  let stateChild: state<'a> => child<'a>
-  let nil: Null.t<'a> => child<'a>
+  let text: string => c<'a>
+  let number: float => c<'a>
+  let integer: int => c<'a>
+  let dom: Dom.element => c<'a>
+  let boolean: bool => c<'a>
+  let stateChild: state<'a> => c<'a>
+  let nil: Null.t<'a> => c<'a>
 }
 
 module Tags: {
@@ -76,6 +76,20 @@ module Tags: {
     ~namespace: namespace=?,
     ~tagName: string,
     ~properties: {..}=?,
-    ~children: array<Child.child<'a>>=?,
+    ~children: array<Child.c<'a>>=?,
   ) => Dom.element
+}
+
+module Dom: {
+  type domBuilder = {
+    tag: string,
+    namespace: Tags.namespace,
+    props?: {..},
+    children?: array<Child.c<'a>>,
+  }
+
+  let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder
+  let withProps: (domBuilder, option<{..}>) => domBuilder
+  let addChild: (domBuilder, Child.c<'a>) => domBuilder
+  let build: domBuilder => Dom.element
 }
