@@ -82,20 +82,25 @@ let deriveState: unit => Dom.element = () => {
   Van.Tags.createTag(
     ~tagName="span",
     ~children=[
-      Van.Tags.childFrom(#Text(`The length of the text is: `)),
-      Van.Tags.childFrom(#Dom(Van.Tags.createTag(~tagName="input", ~properties={
-        "type": "text",
-        "value": vanText,
-        "oninput": (event: Dom.event) => {
-          vanText.val = event->getEventTarget->getInputValue
-        }
-      }))),
-      Van.Tags.childFrom(#State(length))
-    ]
+      Van.Child.text("The length of the text is: "),
+      Van.Child.dom(
+        Van.Tags.createTag(
+          ~tagName="input",
+          ~properties={
+            "type": "text",
+            "value": vanText,
+            "oninput": (evt: Dom.event) => {
+              vanText.val = evt->getEventTarget->getInputValue
+            },
+          },
+        ),
+      ),
+      Van.Child.stateChild(length),
+    ],
   )
 }
 
-Van.add(root, [deriveState()])->ignore
+Van.add(root, deriveState())->ignore
 ```
 
 This example creates a reactive input field that displays the length of its content in real-time.

@@ -15,19 +15,21 @@ let deriveState: unit => Dom.element = () => {
   Van.Tags.createTag(
     ~tagName="span",
     ~children=[
-      // Van.childFrom(#Text(`The length of the text is: `)),
-      // Van.childFrom(#Dom(Van.Tags.createTag(~tagName="input", ~properties={
-      //   "type": "text",
-      //   "value": vanText,
-      //   "oninput": (event: Dom.event) => {
-      //     vanText.val = event->getEventTarget->getInputValue
-      //   }
-      // }))),
-      // Van.childFrom(#State(length))
       Van.Child.text("The length of the text is: "),
-      Van.Child.stateChild(length)
-
-    ]
+      Van.Child.dom(
+        Van.Tags.createTag(
+          ~tagName="input",
+          ~properties={
+            "type": "text",
+            "value": vanText,
+            "oninput": (evt: Dom.event) => {
+              vanText.val = evt->getEventTarget->getInputValue
+            },
+          },
+        ),
+      ),
+      Van.Child.stateChild(length),
+    ],
   )
 }
 
