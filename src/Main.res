@@ -33,6 +33,17 @@ let deriveState: unit => Dom.element = () => {
   // )
   Van.Dom.createElement("span")
   ->Van.Dom.addChild(Van.Child.text("The length of the text is: "))
+  ->Van.Dom.addChild(
+    Van.Child.dom(
+      Van.Dom.createElement("input")
+      ->Van.Dom.withProps({
+        "type": "text",
+        "value": vanText,
+        "oninput": (evt: Dom.event) => vanText.val = evt->getEventTarget->getInputValue,
+      })
+      ->Van.Dom.build,
+    ),
+  )
   ->Van.Dom.addChild(Van.Child.stateChild(length))
   ->Van.Dom.build
 }

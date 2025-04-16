@@ -177,74 +177,36 @@ module Tags = {
     )
   }
 }
-
-// module Dom = {
-//   type builder = {
-//     tag: string,
-//     namespace: Tags.namespace,
-//     props: option<{..}>,
-//     children: array<Child.child<'a>>,
-//   }
-
-//   let createElement: (string, ~namespace: Tags.namespace=?) => builder = (
-//     tag,
-//     ~namespace=Tags.Html,
-//   ) => {
-//     tag,
-//     namespace,
-//     props: None,
-//     children: [],
-//   }
-
-//   let withProps: (builder, option<{..}>) => builder = (bld, props) => {
-//     ...bld, props: Some(props)
-//   }
-
-//   let addChild: (builder, Child.child<'a>) => builder = (bld, child) => {
-//     ...bld, children: [...bld.children, ...child]
-//   }
-
-//   let build: builder => Dom.element = bld => Tags.createTag(
-//     ~tagName=bld.tagName,
-//     ~namespace=bld.namespace,
-//     ~children=bld.children,
-//     ~properties=bld.props
-//   )
-// }
 module Dom = {
-  type domBuilder<'a> = {
+  type domBuilder<'p, 'a> = {
     tag: string,
     namespace: Tags.namespace,
-    // props: {..},
-    // props: option<{..}>,
+    props: 'p,
     children: array<Child.c<'a>>
   }
 
-  let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<'a> = (
+  let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<'p, 'a> = (
     tag,
     ~namespace=Tags.Html,
   ) => {
     tag,
     namespace,
-    // props: Object.make(),
+    props: Object.make(),
     children: [],
   }
 
-  // let withProps: (domBuilder, option<{..}>) => domBuilder = (builder, props) => {
-  //   ...builder, props: Some(props)
-  // }
+  let withProps: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a> = (builder, props) => {
+    ...builder, props: props
+  }
 
-  // let addChild: (domBuilder<'a>, Child.c<'a>) => domBuilder<'a> = (builder, child) => {
-  //   ...builder, children: [...builder.children, ...child]
-  // }
-  let addChild: (domBuilder<'a>, Child.c<'a>) => domBuilder<'a> = (builder, child) => {
+  let addChild: (domBuilder<'p, 'a>, Child.c<'a>) => domBuilder<'p, 'a> = (builder, child) => {
   {...builder, children: Array.concat(builder.children, [child])}
 }
 
-  let build: domBuilder<'a> => Dom.element = builder => Tags.createTag(
+  let build: domBuilder<'p, 'a> => Dom.element = builder => Tags.createTag(
     ~tagName=builder.tag,
     ~namespace=builder.namespace,
     ~children=builder.children,
-    // ~properties=builder.props
+    ~properties=builder.props
   )
 }

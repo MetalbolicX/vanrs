@@ -81,15 +81,15 @@ module Tags: {
 }
 
 module Dom: {
-  type domBuilder<'a> = {
+  type domBuilder<'p, 'a> = {
     tag: string,
     namespace: Tags.namespace,
-    // props?: {..}
+    props: 'p,
     children: array<Child.c<'a>>,
   }
 
-  let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<'a>
-  // let withProps: (domBuilder, option<{..}>) => domBuilder
-  let addChild: (domBuilder<'a>, Child.c<'a>) => domBuilder<'a>
-  let build: domBuilder<'a> => Dom.element
+  let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<{..}, 'a>
+  let withProps: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a>
+  let addChild: (domBuilder<'p, 'a>, Child.c<'a>) => domBuilder<'p, 'a>
+  let build: domBuilder<{..}, 'a> => Dom.element
 }
