@@ -79,25 +79,22 @@ let root = switch getElementById("root") {
 let deriveState: unit => Dom.element = () => {
   let vanText = Van.state("VanJs")
   let length = Van.derive(() => vanText.val->String.length)
-  Van.Tags.createTag(
-    ~tagName="span",
-    ~children=[
-      Van.Child.text("The length of the text is: "),
-      Van.Child.dom(
-        Van.Tags.createTag(
-          ~tagName="input",
-          ~properties={
-            "type": "text",
-            "value": vanText,
-            "oninput": (evt: Dom.event) => {
-              vanText.val = evt->getEventTarget->getInputValue
-            },
-          },
-        ),
-      ),
-      Van.Child.stateChild(length),
-    ],
-  )
+
+  open Van.Child
+  Van.Dom.createElement("span")
+  ->Van.Dom.addChildren([
+    "The length of the text is: "->toText,
+    Van.Dom.createElement("input")
+    ->Van.Dom.withProps({
+      "type": "text",
+      "value": vanText,
+      "oninput": (event: Dom.event) => vanText.val = event->getEventTarget->getInputValue,
+    })
+    ->Van.Dom.build
+    ->toDom,
+    length->toState,
+  ])
+  ->Van.Dom.build
 }
 
 Van.add(root, deriveState())->ignore
@@ -132,7 +129,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the [MIT License](LICENSE).
 
-## Acknowledgements
+## Technologies used
 
-- [ReScript](https://rescript-lang.org/) for the excellent type-safe language.
-- [VanJS](https://vanjs.org/) for the lightweight reactive UI framework.
+- [ReScript](https://rescript-lang.org/) a type-safe language that compiles in JavaScript.
+- [VanJS](https://vanjs.org/) for the lightweight reactive UI framework of JavaScript.
