@@ -212,35 +212,39 @@ module Tags = {
 //   )
 // }
 module Dom = {
-  type domBuilder = {
+  type domBuilder<'a> = {
     tag: string,
     namespace: Tags.namespace,
-    props?: {..},
-    children?: array<Child.c<'a>>
+    // props: {..},
+    // props: option<{..}>,
+    children: array<Child.c<'a>>
   }
 
-  let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder = (
+  let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<'a> = (
     tag,
     ~namespace=Tags.Html,
   ) => {
     tag,
     namespace,
-    props: None,
-    children: None,
+    // props: Object.make(),
+    children: [],
   }
 
-  let withProps: (domBuilder, option<{..}>) => domBuilder = (builder, props) => {
-    ...builder, props: Some(props)
-  }
+  // let withProps: (domBuilder, option<{..}>) => domBuilder = (builder, props) => {
+  //   ...builder, props: Some(props)
+  // }
 
-  let addChild: (domBuilder, Child.c<'a>) => domBuilder = (builder, child) => {
-    ...builder, children: [...builder.children, ...child]
-  }
+  // let addChild: (domBuilder<'a>, Child.c<'a>) => domBuilder<'a> = (builder, child) => {
+  //   ...builder, children: [...builder.children, ...child]
+  // }
+  let addChild: (domBuilder<'a>, Child.c<'a>) => domBuilder<'a> = (builder, child) => {
+  {...builder, children: Array.concat(builder.children, [child])}
+}
 
-  let build: domBuilder => Dom.element = builder => Tags.createTag(
-    ~tagName=builder.tagName,
+  let build: domBuilder<'a> => Dom.element = builder => Tags.createTag(
+    ~tagName=builder.tag,
     ~namespace=builder.namespace,
     ~children=builder.children,
-    ~properties=builder.props
+    // ~properties=builder.props
   )
 }
