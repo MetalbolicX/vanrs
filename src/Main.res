@@ -16,7 +16,7 @@ let deriveState: unit => Dom.element = () => {
   open Van.Child
   Van.Dom.createElement("span")
   ->Van.Dom.addChildren([
-    "The length of the text is: "->text,
+    "The length of the text is: "->toText,
     Van.Dom.createElement("input")
     ->Van.Dom.withProps({
       "type": "text",
@@ -24,8 +24,8 @@ let deriveState: unit => Dom.element = () => {
       "oninput": (event: Dom.event) => vanText.val = event->getEventTarget->getInputValue,
     })
     ->Van.Dom.build
-    ->dom,
-    length->stateChild,
+    ->toDom,
+    length->toState,
   ])
   ->Van.Dom.build
 }

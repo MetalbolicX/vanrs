@@ -184,8 +184,8 @@ module Dom = {
   type domBuilder<'p, 'a> = {
     tag: string,
     namespace: Tags.namespace,
-    props: 'p,
-    children: array<Child.c<'a>>,
+    props?: 'p,
+    children?: array<Child.c<'a>>,
   }
 
   /**
@@ -197,12 +197,7 @@ module Dom = {
   let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<'p, 'a> = (
     tag,
     ~namespace=Tags.Html,
-  ) => {
-    tag,
-    namespace,
-    props: Object.make(),
-    children: [],
-  }
+  ) => {tag, namespace}
 
   /**
    * Adds or updates properties of a domBuilder.
@@ -213,10 +208,7 @@ module Dom = {
   let withProps: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a> = (
     builder,
     props,
-  ) => {
-    ...builder,
-    props,
-  }
+  ) => {...builder, props}
 
   /**
    * Adds a single child to a domBuilder.
@@ -225,7 +217,11 @@ module Dom = {
    * @returns A new domBuilder instance with the added child.
    */
   let addChild: (domBuilder<'p, 'a>, Child.c<'a>) => domBuilder<'p, 'a> = (builder, child) => {
-    ...builder, children: Array.concat(builder.children, [child])
+    ...builder,
+    children: switch builder.children {
+      | Some(children) => [...children, child]
+      | None => [child]
+    }
   }
 
   /**
@@ -246,7 +242,13 @@ module Dom = {
     Tags.createTag(
       ~tagName=builder.tag,
       ~namespace=builder.namespace,
-      ~children=builder.children,
-      ~properties=builder.props,
+      ~children=switch builder.children {
+        | Some(children) => [...children]
+        | None => []
+      },
+      ~properties=switch builder.props {
+        | Some(props) => props
+        | None => Object.make()
+      }
     )
 }

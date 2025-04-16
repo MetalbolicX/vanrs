@@ -129,8 +129,8 @@ module Dom: {
   type domBuilder<'p, 'a> = {
     tag: string,
     namespace: Tags.namespace,
-    props: 'p,
-    children: array<Child.c<'a>>,
+    props?: 'p,
+    children?: array<Child.c<'a>>,
   }
 
   /**
