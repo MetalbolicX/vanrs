@@ -13,7 +13,6 @@ external add: (Dom.element, 'a) => Dom.element = "add"
 type state<'a> = {mutable val: 'a}
 
 /**
-
  * Creates a new state object.
  * @param initialValue The initial value of the state.
  * @returns A state object with a mutable `val` field.
@@ -65,50 +64,49 @@ module Child = {
    * @param str The string value to convert.
    * @returns A child element representing the text.
    */
-  let text: string => c<'a> = str => childFrom(#Text(str))
+  let toText: string => c<'a> = str => childFrom(#Text(str))
 
   /**
    * Creates a child element from a float number.
    * @param n The float number to convert.
    * @returns A child element representing the number.
    */
-  let number: float => c<'a> = n => childFrom(#Number(n))
+  let toNumber: float => c<'a> = n => childFrom(#Number(n))
 
   /**
    * Creates a child element from an integer.
    * @param i The integer to convert.
    * @returns A child element representing the integer.
    */
-  let integer: int => c<'a> = i => childFrom(#Int(i))
+  let toInt: int => c<'a> = i => childFrom(#Int(i))
 
   /**
    * Creates a child element from a DOM element.
    * @param el The DOM element to convert.
    * @returns A child element representing the DOM element.
    */
-  let dom: Dom.element => c<'a> = el => childFrom(#Dom(el))
+  let toDom: Dom.element => c<'a> = el => childFrom(#Dom(el))
 
   /**
    * Creates a child element from a boolean value.
    * @param b The boolean value to convert.
    * @returns A child element representing the boolean.
    */
-  let boolean: bool => c<'a> = b => childFrom(#Boolean(b))
+  let toBool: bool => c<'a> = b => childFrom(#Boolean(b))
 
   /**
    * Creates a child element from a state object.
    * @param st The state object to convert.
    * @returns A child element representing the state.
    */
-  let stateChild: state<'a> => c<'a> = st => childFrom(#State(st))
+  let toState: state<'a> => c<'a> = st => childFrom(#State(st))
 
   /**
-
    * Creates a child element from a null value.
    * @param n The null value to convert.
    * @returns A child element representing the null value.
    */
-  let nil: Null.t<'a> => c<'a> = n => childFrom(#Nil(n))
+  let toNull: Null.t<'a> => c<'a> = n => childFrom(#Nil(n))
 }
 
 module Tags = {
@@ -182,7 +180,7 @@ module Dom = {
     tag: string,
     namespace: Tags.namespace,
     props: 'p,
-    children: array<Child.c<'a>>
+    children: array<Child.c<'a>>,
   }
 
   let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<'p, 'a> = (
@@ -195,18 +193,26 @@ module Dom = {
     children: [],
   }
 
-  let withProps: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a> = (builder, props) => {
-    ...builder, props: props
+  let withProps: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a> = (
+    builder,
+    props,
+  ) => {
+    ...builder,
+    props,
   }
 
   let addChild: (domBuilder<'p, 'a>, Child.c<'a>) => domBuilder<'p, 'a> = (builder, child) => {
-  {...builder, children: Array.concat(builder.children, [child])}
-}
+    ...builder, children: Array.concat(builder.children, [child])
+  }
 
-  let build: domBuilder<'p, 'a> => Dom.element = builder => Tags.createTag(
-    ~tagName=builder.tag,
-    ~namespace=builder.namespace,
-    ~children=builder.children,
-    ~properties=builder.props
-  )
+  let addChildren: (domBuilder<'p, 'a>, array<Child.c<'a>>) => domBuilder<'p, 'a> = (builder, children) =>
+    children->Array.reduce(builder, (acc, child) => addChild(acc, child))
+
+  let build: domBuilder<'p, 'a> => Dom.element = builder =>
+    Tags.createTag(
+      ~tagName=builder.tag,
+      ~namespace=builder.namespace,
+      ~children=builder.children,
+      ~properties=builder.props,
+    )
 }

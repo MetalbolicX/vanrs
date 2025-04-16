@@ -45,13 +45,13 @@ module Child: {
 
   // Helper childFrom functions to reduce the boileplate
   // and convert the types of child elements
-  let text: string => c<'a>
-  let number: float => c<'a>
-  let integer: int => c<'a>
-  let dom: Dom.element => c<'a>
-  let boolean: bool => c<'a>
-  let stateChild: state<'a> => c<'a>
-  let nil: Null.t<'a> => c<'a>
+  let toText: string => c<'a>
+  let toNumber: float => c<'a>
+  let toInt: int => c<'a>
+  let toDom: Dom.element => c<'a>
+  let toBool: bool => c<'a>
+  let toState: state<'a> => c<'a>
+  let toNull: Null.t<'a> => c<'a>
 }
 
 module Tags: {
@@ -91,5 +91,6 @@ module Dom: {
   let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<{..}, 'a>
   let withProps: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a>
   let addChild: (domBuilder<'p, 'a>, Child.c<'a>) => domBuilder<'p, 'a>
+  let addChildren: (domBuilder<'p, 'a>, array<Child.c<'a>>) => domBuilder<'p, 'a>
   let build: domBuilder<{..}, 'a> => Dom.element
 }
