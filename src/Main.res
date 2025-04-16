@@ -18,7 +18,7 @@ let deriveState: unit => Dom.element = () => {
   ->Van.Dom.addChildren([
     "The length of the text is: "->toText,
     Van.Dom.createElement("input")
-    ->Van.Dom.withProps({
+    ->Van.Dom.setAttrs({
       "type": "text",
       "value": vanText,
       "oninput": (event: Dom.event) => vanText.val = event->getEventTarget->getInputValue,

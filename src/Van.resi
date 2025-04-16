@@ -142,12 +142,12 @@ module Dom: {
   let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<{..}, 'a>
 
   /**
-   * Adds or updates properties of a domBuilder.
+   * Adds or updates properties and attribures of a domBuilder.
    * @param builder The current domBuilder instance.
    * @param props The new properties to add or update.
    * @returns A new domBuilder instance with updated properties.
    */
-  let withProps: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a>
+  let setAttrs: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a>
 
   /**
    * Adds a single child to a domBuilder.
