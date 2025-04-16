@@ -176,6 +176,11 @@ module Tags = {
   }
 }
 module Dom = {
+  /**
+   * Represents a builder for creating DOM elements.
+   * @param 'p The type of the properties object.
+   * @param 'a The type of the children elements.
+   */
   type domBuilder<'p, 'a> = {
     tag: string,
     namespace: Tags.namespace,
@@ -183,6 +188,12 @@ module Dom = {
     children: array<Child.c<'a>>,
   }
 
+  /**
+   * Creates a new domBuilder with the specified tag and optional namespace.
+   * @param tag The HTML tag name for the element.
+   * @param namespace The namespace for the element (default is HTML).
+   * @returns A new domBuilder instance.
+   */
   let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<'p, 'a> = (
     tag,
     ~namespace=Tags.Html,
@@ -193,6 +204,12 @@ module Dom = {
     children: [],
   }
 
+  /**
+   * Adds or updates properties of a domBuilder.
+   * @param builder The current domBuilder instance.
+   * @param props The new properties to add or update.
+   * @returns A new domBuilder instance with updated properties.
+   */
   let withProps: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a> = (
     builder,
     props,
@@ -201,13 +218,30 @@ module Dom = {
     props,
   }
 
+  /**
+   * Adds a single child to a domBuilder.
+   * @param builder The current domBuilder instance.
+   * @param child The child element to add.
+   * @returns A new domBuilder instance with the added child.
+   */
   let addChild: (domBuilder<'p, 'a>, Child.c<'a>) => domBuilder<'p, 'a> = (builder, child) => {
     ...builder, children: Array.concat(builder.children, [child])
   }
 
+  /**
+   * Adds multiple children to a domBuilder.
+   * @param builder The current domBuilder instance.
+   * @param children An array of child elements to add.
+   * @returns A new domBuilder instance with all children added.
+   */
   let addChildren: (domBuilder<'p, 'a>, array<Child.c<'a>>) => domBuilder<'p, 'a> = (builder, children) =>
     children->Array.reduce(builder, (acc, child) => addChild(acc, child))
 
+  /**
+   * Builds the final DOM element from a domBuilder.
+   * @param builder The domBuilder instance to build from.
+   * @returns The constructed DOM element.
+   */
   let build: domBuilder<'p, 'a> => Dom.element = builder =>
     Tags.createTag(
       ~tagName=builder.tag,
