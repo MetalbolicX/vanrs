@@ -159,18 +159,18 @@ module Tags = {
   let createTag: (
     ~namespace: namespace=?,
     ~tagName: string,
-    ~properties: {..}=?,
+    ~attributes: {..}=?,
     ~children: array<Child.c<'a>>=?,
-  ) => Dom.element = (~namespace=Html, ~tagName, ~properties=Object.make(), ~children=[]) => {
-    let namespaceProxy = switch resolveNamespace(namespace) {
-    | Some(ns) => tags(#Str(ns))
+  ) => Dom.element = (~namespace as ns=Html, ~tagName, ~attributes as attrs=Object.make(), ~children=[]) => {
+    let namespaceProxy = switch resolveNamespace(ns) {
+    | Some(n) => tags(#Str(n))
     | None => tags(#Unit())
     }
 
-    %raw(`(proxy, tagName, props, children) => proxy[tagName](props, ...children)`)(
+    %raw(`(proxy, tagName, attrs, children) => proxy[tagName](attrs, ...children)`)(
       namespaceProxy,
       tagName,
-      properties,
+      attrs,
       children->Array.map(unwrapChild),
     )
   }
@@ -246,8 +246,8 @@ module Dom = {
         | Some(children) => [...children]
         | None => []
       },
-      ~properties=switch builder.props {
-        | Some(props) => props
+      ~attributes=switch builder.attrs {
+        | Some(attrs) => attrs
         | None => Object.make()
       }
     )

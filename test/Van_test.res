@@ -50,7 +50,10 @@ test(
   () => {
     let container = setup()
 
-    Van.add(container, Van.Tags.createTag(~tagName="span", ~properties={"id": "test"}))->ignore
+    Van.add(
+      container,
+      Van.Dom.createElement("span")->Van.Dom.setAttrs({"id": "test"})->Van.Dom.build,
+    )->ignore
     switch container->querySelector("#test") {
     | Value(_) =>
       isTruthy(

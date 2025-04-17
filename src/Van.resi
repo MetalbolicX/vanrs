@@ -103,21 +103,6 @@ module Tags: {
     | Svg
     | MathMl
     | Custom(string)
-
-  /**
-   * Creates a DOM element with optional properties and children.
-   * @param namespace The namespace of the element (e.g., `Html`, `Svg`).
-   * @param tagName The name of the tag (e.g., `"div"`, `"span"`).
-   * @param properties An object containing attributes for the element.
-   * @param children An array of children to append to the element.
-   * @returns The created DOM element.
-   */
-  let createTag: (
-    ~namespace: namespace=?,
-    ~tagName: string,
-    ~properties: {..}=?,
-    ~children: array<Child.c<'a>>=?,
-  ) => Dom.element
 }
 
 module Dom: {
