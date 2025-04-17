@@ -178,13 +178,13 @@ module Tags = {
 module Dom = {
   /**
    * Represents a builder for creating DOM elements.
-   * @param 'p The type of the properties object.
+   * @param 'p The type of the attributes and properties object.
    * @param 'a The type of the children elements.
    */
   type domBuilder<'p, 'a> = {
     tag: string,
     namespace: Tags.namespace,
-    props?: 'p,
+    attrs?: 'p,
     children?: array<Child.c<'a>>,
   }
 
@@ -207,8 +207,8 @@ module Dom = {
    */
   let setAttrs: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a> = (
     builder,
-    props,
-  ) => {...builder, props}
+    attrs,
+  ) => {...builder, attrs}
 
   /**
    * Adds a single child to a domBuilder.

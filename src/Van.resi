@@ -129,7 +129,7 @@ module Dom: {
   type domBuilder<'p, 'a> = {
     tag: string,
     namespace: Tags.namespace,
-    props?: 'p,
+    attrs?: 'p,
     children?: array<Child.c<'a>>,
   }
 
@@ -144,7 +144,7 @@ module Dom: {
   /**
    * Adds or updates properties and attribures of a domBuilder.
    * @param builder The current domBuilder instance.
-   * @param props The new properties to add or update.
+   * @param attrs The new properties or attributes to add or update.
    * @returns A new domBuilder instance with updated properties.
    */
   let setAttrs: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a>
