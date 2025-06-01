@@ -6,7 +6,7 @@
     "res:build": "rescript",
     "res:clean": "rescript clean",
     "res:dev": "rescript -w",
-    "build": "bun build ./example/Main.res.mjs --outdir ./dist --format esm",
+    "res:bundle": "bun build ./example/Main.res.mjs --outdir ./dist --format esm",
     "dev": "vite",
     "res:test": "retest --with-dom test/**/*.res.mjs"
   },

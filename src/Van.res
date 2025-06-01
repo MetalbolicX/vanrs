@@ -40,8 +40,21 @@ external hydrate: (Dom.element, Dom.element => Dom.element) => unit = "hydrate"
 module Child = {
   /**
    * Represents a child element with a name and value.
+   * @param 'a The type of the value.
+   */
+  type rec t<'a> =
+    | Text(string)
+    | Number(float)
+    | Int(int)
+    | Dom(Dom.element)
+    | Boolean(bool)
+    | State(state<'a>)
+    | Nil(Null.t<'a>)
+
+  /**
+   * Represents the child f the polyvariant type of th child elment.
     */
-  type c<'a> = {"NAME": string, "VAL": 'a}
+  type child<'a> = {"NAME": string, "VAL": 'a}
 
   /**
    * Converts various types to a child element.
@@ -57,56 +70,24 @@ module Child = {
     | #Boolean(bool)
     | #State(state<'a>)
     | #Nil(Null.t<'a>)
-  ] => c<'a> = "%identity"
+  ] => child<'a> = "%identity"
 
   /**
-   * Creates a child element from a string.
-   * @param str The string value to convert.
-   * @returns A child element representing the text.
+   * Casts a child element to the appropriate type.
+   * @param child The child element to cast.
+   * @returns A child element of type `child<'a>`.
    */
-  let toText: string => c<'a> = str => childFrom(#Text(str))
-
-  /**
-   * Creates a child element from a float number.
-   * @param n The float number to convert.
-   * @returns A child element representing the number.
-   */
-  let toNumber: float => c<'a> = n => childFrom(#Number(n))
-
-  /**
-   * Creates a child element from an integer.
-   * @param i The integer to convert.
-   * @returns A child element representing the integer.
-   */
-  let toInt: int => c<'a> = i => childFrom(#Int(i))
-
-  /**
-   * Creates a child element from a DOM element.
-   * @param el The DOM element to convert.
-   * @returns A child element representing the DOM element.
-   */
-  let toDom: Dom.element => c<'a> = el => childFrom(#Dom(el))
-
-  /**
-   * Creates a child element from a boolean value.
-   * @param b The boolean value to convert.
-   * @returns A child element representing the boolean.
-   */
-  let toBool: bool => c<'a> = b => childFrom(#Boolean(b))
-
-  /**
-   * Creates a child element from a state object.
-   * @param st The state object to convert.
-   * @returns A child element representing the state.
-   */
-  let toState: state<'a> => c<'a> = st => childFrom(#State(st))
-
-  /**
-   * Creates a child element from a null value.
-   * @param n The null value to convert.
-   * @returns A child element representing the null value.
-   */
-  let toNull: Null.t<'a> => c<'a> = n => childFrom(#Nil(n))
+  let castChild: t<'a> => child<'a> = child => {
+    switch child {
+    | Text(str) => childFrom(#Text(str))
+    | Number(n) => childFrom(#Number(n))
+    | Int(i) => childFrom(#Int(i))
+    | Dom(el) => childFrom(#Dom(el))
+    | Boolean(b) => childFrom(#Boolean(b))
+    | State(st) => childFrom(#State(st))
+    | Nil(n) => childFrom(#Nil(n))
+    }
+  }
 }
 
 module Tags = {
@@ -132,7 +113,7 @@ module Tags = {
    * @param child The child element to unwrap.
    * @returns The unwrapped value.
    */
-  let unwrapChild: Child.c<'a> => 'a = child => child["VAL"]
+  let unwrapChild: Child.child<'a> => 'a = child => child["VAL"]
 
   /**
    * Resolves the namespace to its string representation.
@@ -160,7 +141,7 @@ module Tags = {
     ~namespace: namespace=?,
     ~tagName: string,
     ~attributes: {..}=?,
-    ~children: array<Child.c<'a>>=?,
+    ~children: array<Child.t<'a>>=?,
   ) => Dom.element = (~namespace as ns=Html, ~tagName, ~attributes as attrs=Object.make(), ~children=[]) => {
     let namespaceProxy = switch resolveNamespace(ns) {
     | Some(n) => tags(#Str(n))
@@ -171,7 +152,7 @@ module Tags = {
       namespaceProxy,
       tagName,
       attrs,
-      children->Array.map(unwrapChild),
+      children->Array.map(c => Child.castChild(c))-> Array.map(unwrapChild)
     )
   }
 }
@@ -185,7 +166,7 @@ module Dom = {
     tag: string,
     namespace: Tags.namespace,
     attrs?: 'p,
-    children?: array<Child.c<'a>>,
+    children?: array<Child.t<'a>>,
   }
 
   /**
@@ -216,7 +197,7 @@ module Dom = {
    * @param child The child element to add.
    * @returns A new domBuilder instance with the added child.
    */
-  let addChild: (domBuilder<'p, 'a>, Child.c<'a>) => domBuilder<'p, 'a> = (builder, child) => {
+  let addChild: (domBuilder<'p, 'a>, Child.t<'a>) => domBuilder<'p, 'a> = (builder, child) => {
     ...builder,
     children: switch builder.children {
       | Some(children) => [...children, child]
@@ -230,7 +211,7 @@ module Dom = {
    * @param children An array of child elements to add.
    * @returns A new domBuilder instance with all children added.
    */
-  let addChildren: (domBuilder<'p, 'a>, array<Child.c<'a>>) => domBuilder<'p, 'a> = (builder, children) =>
+  let addChildren: (domBuilder<'p, 'a>, array<Child.t<'a>>) => domBuilder<'p, 'a> = (builder, children) =>
     children->Array.reduce(builder, (acc, child) => addChild(acc, child))
 
   /**

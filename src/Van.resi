@@ -39,59 +39,14 @@ module Child: {
    * Represents a child element with a name and value.
    * This type is used internally by VanJS to manage child elements.
    */
-  type c<'a> = {
-    "NAME": string,
-    "VAL": 'a
-  }
-
-  /**
-   * Converts a string to a child element.
-   * @param text The string to convert.
-   * @returns A child element representing the text.
-   */
-  let toText: string => c<'a>
-
-  /**
-   * Converts a float to a child element.
-   * @param num The float number to convert.
-   * @returns A child element representing the number.
-   */
-  let toNumber: float => c<'a>
-
-  /**
-   * Converts an integer to a child element.
-   * @param num The integer to convert.
-   * @returns A child element representing the integer.
-   */
-  let toInt: int => c<'a>
-
-  /**
-   * Converts a DOM element to a child element.
-   * @param element The DOM element to convert.
-   * @returns A child element representing the DOM element.
-   */
-  let toDom: Dom.element => c<'a>
-
-  /**
-   * Converts a boolean to a child element.
-   * @param value The boolean value to convert.
-   * @returns A child element representing the boolean.
-   */
-  let toBool: bool => c<'a>
-
-  /**
-   * Converts a state object to a child element.
-   * @param stateObj The state object to convert.
-   * @returns A child element representing the state.
-   */
-  let toState: state<'a> => c<'a>
-
-  /**
-   * Converts a null value to a child element.
-   * @param nullValue The null value to convert.
-   * @returns A child element representing the null value.
-   */
-  let toNull: Null.t<'a> => c<'a>
+  type t<'a> =
+    | Text(string)
+    | Number(float)
+    | Int(int)
+    | Dom(Dom.element)
+    | Boolean(bool)
+    | State(state<'a>)
+    | Nil(Null.t<'a>)
 }
 
 module Tags: {
@@ -115,7 +70,7 @@ module Dom: {
     tag: string,
     namespace: Tags.namespace,
     attrs?: 'p,
-    children?: array<Child.c<'a>>,
+    children?: array<Child.t<'a>>,
   }
 
   /**
@@ -140,7 +95,7 @@ module Dom: {
    * @param child The child element to add.
    * @returns A new domBuilder instance with the added child.
    */
-  let addChild: (domBuilder<'p, 'a>, Child.c<'a>) => domBuilder<'p, 'a>
+  let addChild: (domBuilder<'p, 'a>, Child.t<'a>) => domBuilder<'p, 'a>
 
   /**
    * Adds multiple children to a domBuilder.
@@ -148,7 +103,7 @@ module Dom: {
    * @param children An array of child elements to add.
    * @returns A new domBuilder instance with all children added.
    */
-  let addChildren: (domBuilder<'p, 'a>, array<Child.c<'a>>) => domBuilder<'p, 'a>
+  let addChildren: (domBuilder<'p, 'a>, array<Child.t<'a>>) => domBuilder<'p, 'a>
 
   /**
    * Builds the final DOM element from a domBuilder.
