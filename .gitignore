@@ -4,7 +4,7 @@
 .bsb.lock
 .merlin
 .qodo
-dist/
-out/
+/dist/
 src/**/*.res.mjs
 test/**/*.res.mjs
+example/**/*.res.mjs

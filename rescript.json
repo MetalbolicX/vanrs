@@ -2,7 +2,8 @@
   "name": "rescript-vanjs",
   "sources": [
     { "dir": "src", "subdirs": true },
-    { "dir": "test", "subdirs": true, "type": "dev" }
+    { "dir": "test", "subdirs": true, "type": "dev" },
+    { "dir": "example", "subdirs": true, "type": "dev" }
   ],
   "package-specs": {
     "module": "esmodule",

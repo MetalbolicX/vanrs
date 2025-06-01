@@ -1,15 +1,14 @@
 {
   "name": "rescript-vanjs",
+  "description": "Rescript bindings for Van.js, a lightweight JavaScript framework for building web applications.",
   "version": "2.1.0",
-  "main": "./src/Van.res",
   "scripts": {
     "res:build": "rescript",
     "res:clean": "rescript clean",
     "res:dev": "rescript -w",
-    "build": "bun build ./src/Main.res.mjs --outdir ./out --format esm",
+    "build": "bun build ./example/Main.res.mjs --outdir ./dist --format esm",
     "dev": "vite",
-    "test": "retest --with-dom test/**/*.res.mjs",
-    "dist": "bun build ./src/Van.res --outdir ./dist --format esm --minify"
+    "res:test": "retest --with-dom test/**/*.res.mjs"
   },
   "keywords": [
     "rescript",
@@ -20,13 +19,16 @@
     "name": "José Martínez Santana"
   },
   "repository": {
-    "type": "github",
-    "url": "https://github.com/MetalbolicX/rescript-vanjs"
+    "type": "git",
+    "url": "https://github.com/MetalbolicX/rescript-vanjs.git"
   },
   "license": "MIT",
   "dependencies": {
     "@rescript/core": "^1.6.1",
     "rescript": "^11.1.4",
+    "vanjs-core": "^1.5.3"
+  },
+  "peerDependencies": {
     "vanjs-core": "^1.5.3"
   },
   "devDependencies": {
