@@ -4,9 +4,9 @@
 
 ReScrtip can work on modern JavaScript runtimes, including [Node.js](https://nodejs.org), [Deno](https://deno.com/), [Bun](https://bun.sh/).
 
-### Node.js
+### For Node.js
 
-To work with Node.js, you must have installed the version 18 or higher. That's the Express version 5 requirement.
+To work with Node.js, you must have installed the version 14 or higher. That's the ReScript version 11 requirement.
 
 Check your Node.js version with the following command:
 ```sh
@@ -19,7 +19,7 @@ If you do not have Node.js installed in current environment, or the installed ve
 
 Navigate to the folder where your project will be created and run the following command to create a new directory:
 ```sh
-mkdir my-express-app && cd my-express-app
+mkdir my-re-vanjs-app && cd my-re-vanjs-app
 ```
 
 Initialize a `package.json` file using one of the following commands:
@@ -56,7 +56,7 @@ deno init
 
 ### Install Dependencies
 
-Install Express, ReScript, and Rexpress using your preferred package manager:
+Install VanJS, ReScript, and rescript-vanjs using your preferred package manager:
 
 <!-- tabs:start -->
 
@@ -136,7 +136,7 @@ In `rescript.json` file, add the following content:
 }
 ```
 
-> **Details:** For a more advanced configuration of the `rescript.json` file, you can read the [Rescript documentation](https://rescript-lang.org/docs/manual/v11.0.0/build-configuration).
+For a more advanced configuration of the `rescript.json` file, you can read the [Rescript documentation](https://rescript-lang.org/docs/manual/v11.0.0/build-configuration).
 
 ### Helper commands
 
@@ -150,7 +150,7 @@ Add the following scripts to your `package.json` to compile your `.res` files to
 }
 ```
 
-> **Details:** If you want more information about how to set up your ReScript project, you can check the [ReScript installation documentation](https://rescript-lang.org/docs/manual/v11.0.0/installation).
+If you want more information about how to set up your ReScript project, you can check the [ReScript installation documentation](https://rescript-lang.org/docs/manual/v11.0.0/installation).
 
 **Next Steps:**
 You are now ready to start building your ReScript Express app! See the [Usage Examples](./examples.md) for sample code and patterns.

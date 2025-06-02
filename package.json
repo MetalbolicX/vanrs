@@ -14,10 +14,9 @@
   },
   "devDependencies": {
     "rescript-test": "^7.0.1",
-    "vanjs-core": "^1.5.5",
-    "vite": "^6.2.3"
+    "vanjs-core": "^1.5.5"
   },
-  "description": "Rescript bindings for Van.js, a lightweight JavaScript framework for building web applications.",
+  "description": "Rescript bindings for VanJS, the lightest weight reactive JavaScript framework for building web applications.",
   "keywords": [
     "rescript",
     "vanjs",
@@ -33,7 +32,6 @@
     "res:clean": "rescript clean",
     "res:dev": "rescript -w",
     "res:bundle": "bun build ./example/Main.res.mjs --outdir ./dist --format esm",
-    "dev": "vite",
     "res:test": "retest --with-dom test/**/*.res.mjs"
   }
 }
