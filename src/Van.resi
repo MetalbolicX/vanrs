@@ -56,57 +56,55 @@ module Tags: {
     | Svg
     | MathMl
     | Custom(string)
-}
 
-module Dom: {
   /**
-   * Represents a builder for creating DOM elements.
-   * @param 'p The type of the properties object.
-   * @param 'a The type of the children elements.
+  * Represents a builder for creating DOM elements.
+  * @param 'p The type of the properties object.
+  * @param 'a The type of the children elements.
    */
-  type domBuilder<'p, 'a> = {
+  type t<'p, 'a> = {
     tag: string,
-    namespace: Tags.namespace,
+    namespace: namespace,
     attrs?: 'p,
-    children?: array<Child.t<'a>>,
+    children?: array<Child.t<'a>>
   }
 
   /**
-   * Creates a new domBuilder with the specified tag and optional namespace.
-   * @param tag The HTML tag name for the element.
-   * @param namespace The namespace for the element (default is HTML).
-   * @returns A new domBuilder instance with empty properties.
+  * Creates a new DOM element builder.
+  * @param string The tag name of the element to create.
+  * @param namespace The namespace of the element (optional).
+  * @returns A new element builder instance with the specified tag and namespace.
    */
-  let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<{..}, 'a>
+  let make: (string, ~namespace: namespace=?) => t<{..}, 'a>
 
   /**
-   * Adds or updates properties and attribures of a domBuilder.
+   * Adds a property to the new element builder.
    * @param builder The current domBuilder instance.
-   * @param attrs The new properties or attributes to add or update.
-   * @returns A new domBuilder instance with updated properties.
+   * @param prop The property to add.
+   * @returns A new domBuilder instance with the added property.
    */
-  let attr: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a>
+  let attr: (t<'oldProps, 'a>, 'newProps) => t<'newProps, 'a>
 
   /**
-   * Adds a single child to a domBuilder.
+   * Adds a child to the new element builder.
    * @param builder The current domBuilder instance.
    * @param child The child element to add.
-   * @returns A new domBuilder instance with the added child.
+   * @returns A new element builder instance with the added child.
    */
-  let append: (domBuilder<'p, 'a>, Child.t<'a>) => domBuilder<'p, 'a>
+  let append: (t<'p, 'a>, Child.t<'a>) => t<'p, 'a>
 
   /**
-   * Adds multiple children to a domBuilder.
+   * Adds multiple children to the new element builder.
    * @param builder The current domBuilder instance.
    * @param children An array of child elements to add.
-   * @returns A new domBuilder instance with all children added.
+   * @returns A new element builder instance with the added children.
    */
-  let appendChildren: (domBuilder<'p, 'a>, array<Child.t<'a>>) => domBuilder<'p, 'a>
+  let appendChildren: (t<'p, 'a>, array<Child.t<'a>>) => t<'p, 'a>
 
   /**
-   * Builds the final DOM element from a domBuilder.
-   * @param builder The domBuilder instance to build from.
-   * @returns The constructed DOM element.
+   * Builds the DOM element from the current builder state.
+   * @param builder The current domBuilder instance.
+   * @returns A DOM element created from the builder's properties and children.
    */
-  let build: domBuilder<{..}, 'a> => Dom.element
+  let build: t<{..}, 'a> => Dom.element
 }

@@ -86,19 +86,9 @@ module Child = {
  * @returns The parent DOM element for chaining.
  */
 @module("vanjs-core") @scope("default") @variadic
-// external addVan: (Dom.element, array<Js.Json.t>) => Dom.element = "add"
 external addVan: (Dom.element, array<'a>) => Dom.element = "add"
 
 let add: (Dom.element, array<Child.t<'a>>) => Dom.element = (parent, children) => {
-  // switch child {
-  // | Child.Text(str) => parent->addVan(#Text(str))
-  // | Child.Number(n) => parent->addVan(#Number(n))
-  // | Child.Int(i) => parent->addVan(#Int(i))
-  // | Child.Dom(el) => parent->addVan(#Dom(el))
-  // | Child.Boolean(b) => parent->addVan(#Boolean(b))
-  // | Child.State(st) => parent->addVan(#State(st))
-  // | Child.Nil(n) => parent->addVan(#Nil(n))
-  // }
   let parsedChildren = children->Array.map(c => c->Child.castChild)->Array.map(c => c->Child.unwrapChild)
   parent->addVan(parsedChildren)
 }
@@ -121,6 +111,19 @@ module Tags = {
     | Svg
     | MathMl
     | Custom(string)
+
+  /**
+   * Represents a builder for creating DOM elements.
+   * @param 'p The type of the attributes and properties object.
+   * @param 'a The type of the children elements.
+   */
+  type t<'p, 'a> = {
+    tag: string,
+    namespace: namespace,
+    attrs?: 'p,
+    children?: array<Child.t<'a>>,
+  }
+
 
   /**
    * Retrieves the `tags` proxy object for the specified namespace.
@@ -170,49 +173,36 @@ module Tags = {
       children->Array.map(c => Child.castChild(c))-> Array.map(c => c->Child.unwrapChild)
     )
   }
-}
-module Dom = {
-  /**
-   * Represents a builder for creating DOM elements.
-   * @param 'p The type of the attributes and properties object.
-   * @param 'a The type of the children elements.
-   */
-  type domBuilder<'p, 'a> = {
-    tag: string,
-    namespace: Tags.namespace,
-    attrs?: 'p,
-    children?: array<Child.t<'a>>,
-  }
 
   /**
-   * Creates a new domBuilder with the specified tag and optional namespace.
-   * @param tag The HTML tag name for the element.
-   * @param namespace The namespace for the element (default is HTML).
-   * @returns A new domBuilder instance.
+  * Creates a new DOM element builder.
+  * @param string The tag name of the element to create.
+  * @param namespace The namespace of the element (optional).
+  * @returns A new element builder instance with the specified tag and namespace.
    */
-  let createElement: (string, ~namespace: Tags.namespace=?) => domBuilder<'p, 'a> = (
+  let make: (string, ~namespace: namespace=?) => t<'p, 'a> = (
     tag,
-    ~namespace=Tags.Html,
+    ~namespace=Html,
   ) => {tag, namespace}
 
   /**
-   * Adds or updates properties and attributes of a domBuilder.
+   * Adds a property to the new element builder.
    * @param builder The current domBuilder instance.
-   * @param props The new properties to add or update.
-   * @returns A new domBuilder instance with updated properties.
+   * @param prop The property to add.
+   * @returns A new domBuilder instance with the added property.
    */
-  let attr: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a> = (
+  let attr: (t<'oldProps, 'a>, 'newProps) => t<'newProps, 'a> = (
     builder,
     attrs,
   ) => {...builder, attrs}
 
   /**
-   * Adds a single child to a domBuilder.
+   * Adds a child to the new element builder.
    * @param builder The current domBuilder instance.
    * @param child The child element to add.
-   * @returns A new domBuilder instance with the added child.
+   * @returns A new element builder instance with the added child.
    */
-  let append: (domBuilder<'p, 'a>, Child.t<'a>) => domBuilder<'p, 'a> = (builder, child) => {
+  let append: (t<'p, 'a>, Child.t<'a>) => t<'p, 'a> = (builder, child) => {
     ...builder,
     children: switch builder.children {
       | Some(children) => [...children, child]
@@ -221,21 +211,21 @@ module Dom = {
   }
 
   /**
-   * Adds multiple children to a domBuilder.
+   * Adds multiple children to the new element builder.
    * @param builder The current domBuilder instance.
    * @param children An array of child elements to add.
-   * @returns A new domBuilder instance with all children added.
+   * @returns A new element builder instance with the added children.
    */
-  let appendChildren: (domBuilder<'p, 'a>, array<Child.t<'a>>) => domBuilder<'p, 'a> = (builder, children) =>
+  let appendChildren: (t<'p, 'a>, array<Child.t<'a>>) => t<'p, 'a> = (builder, children) =>
     children->Array.reduce(builder, (list, child) => append(list, child))
 
   /**
-   * Builds the final DOM element from a domBuilder.
-   * @param builder The domBuilder instance to build from.
-   * @returns The constructed DOM element.
+   * Builds the DOM element from the current builder state.
+   * @param builder The current domBuilder instance.
+   * @returns A DOM element created from the builder's properties and children.
    */
-  let build: domBuilder<'p, 'a> => Dom.element = builder =>
-    Tags.createTag(
+  let build: t<'p, 'a> => Dom.element = builder =>
+    createTag(
       ~tagName=builder.tag,
       ~namespace=builder.namespace,
       ~children=switch builder.children {

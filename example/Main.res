@@ -13,19 +13,19 @@ let deriveState: unit => Dom.element = () => {
   let vanText = Van.state("VanJs")
   let length = Van.derive(() => vanText.val->String.length)
 
-  Van.Dom.createElement("div")
-  ->Van.Dom.appendChildren([
+  Van.Tags.make("div")
+  ->Van.Tags.appendChildren([
     Text("The length of the text is: "),
-    Dom(Van.Dom.createElement("input")
-    ->Van.Dom.attr({
+    Dom(Van.Tags.make("input")
+    ->Van.Tags.attr({
       "type": "text",
       "value": vanText.val,
       "oninput": (event: Dom.event) => vanText.val = event->getEventTarget->getInputValue,
     })
-    ->Van.Dom.build),
+    ->Van.Tags.build),
     State(length)
   ])
-  ->Van.Dom.build
+  ->Van.Tags.build
 }
 
 Van.add(root, [Dom(deriveState())])->ignore
