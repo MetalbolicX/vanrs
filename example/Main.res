@@ -28,4 +28,4 @@ let deriveState: unit => Dom.element = () => {
   ->Van.Dom.build
 }
 
-Van.add(root, Dom(deriveState()))->ignore
+Van.add(root, [Dom(deriveState())])->ignore

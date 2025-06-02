@@ -85,27 +85,22 @@ module Child = {
  * @param children A variadic list of children to add.
  * @returns The parent DOM element for chaining.
  */
-@module("vanjs-core") @scope("default")
-external addVan: (Dom.element, @unwrap [
-  | #Text(string)
-  | #Number(float)
-  | #Int(int)
-  | #Dom(Dom.element)
-  | #Boolean(bool)
-  | #State(state<'a>)
-  | #Nil(Null.t<'a>)
-]) => Dom.element = "add"
+@module("vanjs-core") @scope("default") @variadic
+// external addVan: (Dom.element, array<Js.Json.t>) => Dom.element = "add"
+external addVan: (Dom.element, array<'a>) => Dom.element = "add"
 
-let add: (Dom.element, Child.t<'a>) => Dom.element = (parent, child) => {
-  switch child {
-  | Child.Text(str) => parent->addVan(#Text(str))
-  | Child.Number(n) => parent->addVan(#Number(n))
-  | Child.Int(i) => parent->addVan(#Int(i))
-  | Child.Dom(el) => parent->addVan(#Dom(el))
-  | Child.Boolean(b) => parent->addVan(#Boolean(b))
-  | Child.State(st) => parent->addVan(#State(st))
-  | Child.Nil(n) => parent->addVan(#Nil(n))
-  }
+let add: (Dom.element, array<Child.t<'a>>) => Dom.element = (parent, children) => {
+  // switch child {
+  // | Child.Text(str) => parent->addVan(#Text(str))
+  // | Child.Number(n) => parent->addVan(#Number(n))
+  // | Child.Int(i) => parent->addVan(#Int(i))
+  // | Child.Dom(el) => parent->addVan(#Dom(el))
+  // | Child.Boolean(b) => parent->addVan(#Boolean(b))
+  // | Child.State(st) => parent->addVan(#State(st))
+  // | Child.Nil(n) => parent->addVan(#Nil(n))
+  // }
+  let parsedChildren = children->Array.map(c => c->Child.castChild)->Array.map(c => c->Child.unwrapChild)
+  parent->addVan(parsedChildren)
 }
 
 /**

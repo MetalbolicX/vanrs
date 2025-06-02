@@ -11,9 +11,6 @@
         "rescript-test": "^7.0.1",
         "vanjs-core": "^1.5.5",
       },
-      "peerDependencies": {
-        "vanjs-core": "^1.5.5",
-      },
     },
   },
   "packages": {

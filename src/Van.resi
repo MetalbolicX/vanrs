@@ -37,7 +37,7 @@ module Child: {
  * @param dom The DOM element to which the child will be added.
   * @param child The child element to add, which can be a text, number, DOM element, boolean, state, or null.
  */
-let add: (Dom.element, Child.t<'a>) => Dom.element
+let add: (Dom.element, array<Child.t<'a>>) => Dom.element
 
 /**
  * Hydrates the SSR component dom with the hydration function f.
