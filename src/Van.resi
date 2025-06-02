@@ -1,13 +1,4 @@
 /**
- * Adds child DOM elements or other valid children to a parent DOM element.
- * @param parent The parent DOM element.
- * @param children A variadic list of children to add.
- * @returns The parent DOM element for chaining.
- */
-
-let add: (Dom.element, 'a) => Dom.element
-
-/**
  * Represents a state object with a mutable `val` field.
  */
 type state<'a> = {mutable val: 'a}
@@ -26,14 +17,6 @@ let state: 'a => state<'a>
  */
 let derive: (unit => 'a) => state<'a>
 
-/**
- * Hydrates the SSR component dom with the hydration function f.
- * @param dom The root DOM node of the SSR component we want to hydrate.
- * @param f The hydration function, which takes a DOM node as its input parameter and returns the new version of the DOM node.
- * @returns undefined
- */
-let hydrate: (Dom.element, Dom.element => Dom.element) => unit
-
 module Child: {
   /**
    * Represents a child element with a name and value.
@@ -48,6 +31,21 @@ module Child: {
     | State(state<'a>)
     | Nil(Null.t<'a>)
 }
+
+/**
+ * Adds a child element to a DOM element using the VanJS library.
+ * @param dom The DOM element to which the child will be added.
+  * @param child The child element to add, which can be a text, number, DOM element, boolean, state, or null.
+ */
+let add: (Dom.element, Child.t<'a>) => Dom.element
+
+/**
+ * Hydrates the SSR component dom with the hydration function f.
+ * @param dom The root DOM node of the SSR component we want to hydrate.
+ * @param f The hydration function, which takes a DOM node as its input parameter and returns the new version of the DOM node.
+ * @returns undefined
+ */
+let hydrate: (Dom.element, Dom.element => Dom.element) => unit
 
 module Tags: {
   /**
@@ -87,7 +85,7 @@ module Dom: {
    * @param attrs The new properties or attributes to add or update.
    * @returns A new domBuilder instance with updated properties.
    */
-  let setAttrs: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a>
+  let attr: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a>
 
   /**
    * Adds a single child to a domBuilder.
@@ -95,7 +93,7 @@ module Dom: {
    * @param child The child element to add.
    * @returns A new domBuilder instance with the added child.
    */
-  let addChild: (domBuilder<'p, 'a>, Child.t<'a>) => domBuilder<'p, 'a>
+  let append: (domBuilder<'p, 'a>, Child.t<'a>) => domBuilder<'p, 'a>
 
   /**
    * Adds multiple children to a domBuilder.
@@ -103,7 +101,7 @@ module Dom: {
    * @param children An array of child elements to add.
    * @returns A new domBuilder instance with all children added.
    */
-  let addChildren: (domBuilder<'p, 'a>, array<Child.t<'a>>) => domBuilder<'p, 'a>
+  let appendChildren: (domBuilder<'p, 'a>, array<Child.t<'a>>) => domBuilder<'p, 'a>
 
   /**
    * Builds the final DOM element from a domBuilder.

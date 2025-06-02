@@ -1,13 +1,4 @@
 /**
- * Adds child DOM elements or other valid children to a parent DOM element.
- * @param parent The parent DOM element.
- * @param children A variadic list of children to add.
- * @returns The parent DOM element for chaining.
- */
-@module("vanjs-core") @scope("default")
-external add: (Dom.element, 'a) => Dom.element = "add"
-
-/**
  * Represents a state object with a mutable `val` field.
  */
 type state<'a> = {mutable val: 'a}
@@ -28,21 +19,12 @@ external state: 'a => state<'a> = "state"
 @module("vanjs-core") @scope("default")
 external derive: (unit => 'a) => state<'a> = "derive"
 
-/**
- * Hydrates the SSR component dom with the hydration function f.
- * @param dom The root DOM node of the SSR component we want to hydrate.
- * @param f The hydration function, which takes a DOM node as its input parameter and returns the new version of the DOM node.
- * @returns undefined
- */
-@module("vanjs-core") @scope("default")
-external hydrate: (Dom.element, Dom.element => Dom.element) => unit = "hydrate"
-
 module Child = {
   /**
    * Represents a child element with a name and value.
    * @param 'a The type of the value.
    */
-  type rec t<'a> =
+  type t<'a> =
     | Text(string)
     | Number(float)
     | Int(int)
@@ -73,6 +55,13 @@ module Child = {
   ] => child<'a> = "%identity"
 
   /**
+   * Unwraps the value from a child element.
+   * @param child The child element to unwrap.
+   * @returns The unwrapped value.
+   */
+  let unwrapChild: child<'a> => 'a = child => child["VAL"]
+
+  /**
    * Casts a child element to the appropriate type.
    * @param child The child element to cast.
    * @returns A child element of type `child<'a>`.
@@ -89,6 +78,44 @@ module Child = {
     }
   }
 }
+
+/**
+ * Adds child DOM elements or other valid children to a parent DOM element.
+ * @param parent The parent DOM element.
+ * @param children A variadic list of children to add.
+ * @returns The parent DOM element for chaining.
+ */
+@module("vanjs-core") @scope("default")
+external addVan: (Dom.element, @unwrap [
+  | #Text(string)
+  | #Number(float)
+  | #Int(int)
+  | #Dom(Dom.element)
+  | #Boolean(bool)
+  | #State(state<'a>)
+  | #Nil(Null.t<'a>)
+]) => Dom.element = "add"
+
+let add: (Dom.element, Child.t<'a>) => Dom.element = (parent, child) => {
+  switch child {
+  | Child.Text(str) => parent->addVan(#Text(str))
+  | Child.Number(n) => parent->addVan(#Number(n))
+  | Child.Int(i) => parent->addVan(#Int(i))
+  | Child.Dom(el) => parent->addVan(#Dom(el))
+  | Child.Boolean(b) => parent->addVan(#Boolean(b))
+  | Child.State(st) => parent->addVan(#State(st))
+  | Child.Nil(n) => parent->addVan(#Nil(n))
+  }
+}
+
+/**
+ * Hydrates the SSR component dom with the hydration function f.
+ * @param dom The root DOM node of the SSR component we want to hydrate.
+ * @param f The hydration function, which takes a DOM node as its input parameter and returns the new version of the DOM node.
+ * @returns undefined
+ */
+@module("vanjs-core") @scope("default")
+external hydrate: (Dom.element, Dom.element => Dom.element) => unit = "hydrate"
 
 module Tags = {
   /**
@@ -107,13 +134,6 @@ module Tags = {
    */
   @module("vanjs-core") @scope("default")
   external tags: @unwrap [#Str(string) | #Unit(unit)] => 'a = "tags"
-
-  /**
-   * Unwraps the value from a child element.
-   * @param child The child element to unwrap.
-   * @returns The unwrapped value.
-   */
-  let unwrapChild: Child.child<'a> => 'a = child => child["VAL"]
 
   /**
    * Resolves the namespace to its string representation.
@@ -152,7 +172,7 @@ module Tags = {
       namespaceProxy,
       tagName,
       attrs,
-      children->Array.map(c => Child.castChild(c))-> Array.map(unwrapChild)
+      children->Array.map(c => Child.castChild(c))-> Array.map(c => c->Child.unwrapChild)
     )
   }
 }
@@ -186,7 +206,7 @@ module Dom = {
    * @param props The new properties to add or update.
    * @returns A new domBuilder instance with updated properties.
    */
-  let setAttrs: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a> = (
+  let attr: (domBuilder<'oldProps, 'a>, 'newProps) => domBuilder<'newProps, 'a> = (
     builder,
     attrs,
   ) => {...builder, attrs}
@@ -197,7 +217,7 @@ module Dom = {
    * @param child The child element to add.
    * @returns A new domBuilder instance with the added child.
    */
-  let addChild: (domBuilder<'p, 'a>, Child.t<'a>) => domBuilder<'p, 'a> = (builder, child) => {
+  let append: (domBuilder<'p, 'a>, Child.t<'a>) => domBuilder<'p, 'a> = (builder, child) => {
     ...builder,
     children: switch builder.children {
       | Some(children) => [...children, child]
@@ -211,8 +231,8 @@ module Dom = {
    * @param children An array of child elements to add.
    * @returns A new domBuilder instance with all children added.
    */
-  let addChildren: (domBuilder<'p, 'a>, array<Child.t<'a>>) => domBuilder<'p, 'a> = (builder, children) =>
-    children->Array.reduce(builder, (acc, child) => addChild(acc, child))
+  let appendChildren: (domBuilder<'p, 'a>, array<Child.t<'a>>) => domBuilder<'p, 'a> = (builder, children) =>
+    children->Array.reduce(builder, (list, child) => append(list, child))
 
   /**
    * Builds the final DOM element from a domBuilder.
