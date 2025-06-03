@@ -44,29 +44,3 @@ test("Van.derive object create a derived state object", () => {
   let doubleCounter = Van.derive(() => 2 * counter.val)
   isIntEqualTo(doubleCounter.val, 4, ~message="Derived value should be 4")
 })
-
-// test(
-//   "Van.add and Van.Tags.createTag check if a new element was added to the DOM using Van js framework",
-//   () => {
-//     let container = setup()
-
-//     Van.add(
-//       container,
-//       Van.Dom.createElement("span")->Van.Dom.setAttrs({"id": "test"})->Van.Dom.build,
-//     )->ignore
-//     switch container->querySelector("#test") {
-//     | Value(_) =>
-//       isTruthy(
-//         true,
-//         ~message="The span element with id 'test' was correctly added using the Van.add function. In addition it was added using the Van.Tags.createTag function.",
-//       )
-//     | Null | Undefined =>
-//       isTruthy(
-//         false,
-//         ~message="The span element with id 'test' was not correctly added using the Van.add function",
-//       )
-//     }
-
-//     container->teardown
-//   },
-// )
