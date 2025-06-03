@@ -33,9 +33,10 @@ module Child: {
 }
 
 /**
- * Adds a child element to a DOM element using the VanJS library.
- * @param dom The DOM element to which the child will be added.
-  * @param child The child element to add, which can be a text, number, DOM element, boolean, state, or null.
+ * Adds child elements to a parent DOM element.
+ * @param parent The parent DOM element.
+ * @param children An array of child elements to add.
+ * @returns The parent DOM element with the added children.
  */
 let add: (Dom.element, array<Child.t<'a>>) => Dom.element
 

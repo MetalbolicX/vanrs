@@ -8,6 +8,9 @@
     "type": "git",
     "url": "https://github.com/MetalbolicX/rescript-vanjs.git"
   },
+  "bugs": {
+    "url": "https://github.com/MetalbolicX/rescript-vanjs/issues"
+  },
   "dependencies": {
     "@rescript/core": "^1.6.1",
     "rescript": "^11.1.4"
@@ -32,7 +35,8 @@
     "res:build": "rescript",
     "res:clean": "rescript clean",
     "res:dev": "rescript -w",
-    "res:bundle": "rolldown ./example/Main.res.mjs --file ./dist/Main.res.js --format es",
-    "res:test": "retest --with-dom test/**/*.res.mjs"
+    "res:bundle": "rolldown ./example/Main.res.mjs --file ./example/Main.res.js --format es",
+    "res:test": "retest --with-dom test/**/*.res.mjs",
+    "docs": "docsify serve docs"
   }
 }

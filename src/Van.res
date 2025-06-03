@@ -80,16 +80,24 @@ module Child = {
 }
 
 /**
- * Adds child DOM elements or other valid children to a parent DOM element.
+ * Adds child elements to a parent DOM element.
  * @param parent The parent DOM element.
- * @param children A variadic list of children to add.
- * @returns The parent DOM element for chaining.
+ * @param children An array of child elements to add.
+ * @returns The parent DOM element with the added children.
  */
 @module("vanjs-core") @scope("default") @variadic
 external addVan: (Dom.element, array<'a>) => Dom.element = "add"
 
+/**
+ * Adds child elements to a parent DOM element.
+ * @param parent The parent DOM element.
+ * @param children An array of child elements to add.
+ * @returns The parent DOM element with the added children.
+ */
 let add: (Dom.element, array<Child.t<'a>>) => Dom.element = (parent, children) => {
-  let parsedChildren = children->Array.map(c => c->Child.castChild)->Array.map(c => c->Child.unwrapChild)
+  let parsedChildren = children
+  ->Array.map(c => c->Child.castChild)
+  ->Array.map(c => c->Child.unwrapChild)
   parent->addVan(parsedChildren)
 }
 

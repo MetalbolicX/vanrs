@@ -103,7 +103,7 @@ touch rescript.json
 ```
 
 #### **Windows**
-```ps1
+```powershell
 New-Item -Path ".\rescript.json" -ItemType File
 ```
 
@@ -151,6 +151,3 @@ Add the following scripts to your `package.json` to compile your `.res` files to
 ```
 
 If you want more information about how to set up your ReScript project, you can check the [ReScript installation documentation](https://rescript-lang.org/docs/manual/v11.0.0/installation).
-
-**Next Steps:**
-You are now ready to start building your ReScript Express app! See the [Usage Examples](./examples.md) for sample code and patterns.
