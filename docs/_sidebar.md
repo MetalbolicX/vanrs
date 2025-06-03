@@ -2,3 +2,4 @@
 - [Getting Started](/getting-started)
 - [API Reference](/api-index)
 - [Tutorials](/tutorials)
+- [Compile and Run](/compile-run)

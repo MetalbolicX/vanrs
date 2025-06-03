@@ -136,7 +136,7 @@ In `rescript.json` file, add the following content:
 }
 ```
 
-For a more advanced configuration of the `rescript.json` file, you can read the [Rescript documentation](https://rescript-lang.org/docs/manual/v11.0.0/build-configuration).
+?> For a more advanced configuration of the `rescript.json` file, you can read the [Rescript documentation](https://rescript-lang.org/docs/manual/v11.0.0/build-configuration).
 
 ### Helper commands
 
@@ -150,4 +150,4 @@ Add the following scripts to your `package.json` to compile your `.res` files to
 }
 ```
 
-If you want more information about how to set up your ReScript project, you can check the [ReScript installation documentation](https://rescript-lang.org/docs/manual/v11.0.0/installation).
+?> If you want more information about how to set up your ReScript project, you can check the [ReScript installation documentation](https://rescript-lang.org/docs/manual/v11.0.0/installation).
