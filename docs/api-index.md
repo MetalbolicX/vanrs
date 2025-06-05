@@ -234,7 +234,7 @@ sequenceDiagram
     User->>Builder: appendChildren([Number(42), Boolean(true)])
     Builder-->>User: t<{..}, 'a>
     User->>Builder: build
-    Note right of Builder: Set attributes, properties and child or children. <br>When the `build` function is called, it returns a `Dom.element`.
+    Note right of Builder: Set attributes, properties and child or children. <br/>When the `build` function is called, <br/>it returns a `Dom.element`.
     Builder-->>User: Dom.element
 ```
 
