@@ -92,7 +92,7 @@ Follow these steps to build and run your rescript-vanjs application:
 
 ## Documentation
 
-For detailed documentation on how to use `rescript-vanjs`, refer to the [API documentation](docs/api-index.md).
+For detailed documentation on how to use `rescript-vanjs`, refer to the [API documentation](https://metalbolicx.github.io/rescript-vanjs/#/api-index).
 
 ## Contributing
 

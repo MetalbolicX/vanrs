@@ -1,6 +1,7 @@
 {
   "name": "rescript-vanjs",
   "version": "2.1.0",
+  "type": "module",
   "author": {
     "name": "José Martínez Santana"
   },
