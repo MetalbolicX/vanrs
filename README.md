@@ -100,22 +100,18 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Technologies used
 
-## Technologies used
-
-<table>
+<table border="0>
   <tr>
     <td align="center">
       <a href="https://vanjs.org/" target="_blank">
         <img src="./images/vanjs-logo.png" alt="VanJS" width="42" height="42" /><br/>
         <b>VanJS</b><br/>
-        <span style="color: #888;">Reactive UI Framework</span>
       </a>
     </td>
     <td align="center">
       <a href="https://rescript-lang.org/" target="_blank">
         <img src="./images/rescript-logo.png" alt="ReScript" width="42" height="42" /><br/>
         <b>ReScript</b><br/>
-        <span style="color: #888;">Strongly-Typed Language</span>
       </a>
     </td>
   </tr>
