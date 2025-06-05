@@ -2,18 +2,18 @@
 
 ## Setup environment
 
-ReScrtip can work on modern JavaScript runtimes, including [Node.js](https://nodejs.org), [Deno](https://deno.com/), [Bun](https://bun.sh/).
+ReScrtipt can work on modern JavaScript runtimes, including [Node.js](https://nodejs.org), [Deno](https://deno.com/), [Bun](https://bun.sh/).
 
 ### For Node.js
 
-To work with Node.js, you must have installed the version 14 or higher. That's the ReScript version 11 requirement.
+To work with Node.js, you must have version 14 or higher installed. This is a requirement for ReScript version 11.
 
 Check your Node.js version with the following command:
 ```sh
 node -v
 ```
 
-If you do not have Node.js installed in current environment, or the installed version is too low, you can use [nvm](https://github.com/nvm-sh/nvm) to install the latest version of Node.js.
+If you do not have Node.js installed in your current environment, or the installed version is too low, you can use [nvm](https://github.com/nvm-sh/nvm) to install the latest version of Node.js.
 
 ## Create a new project
 
@@ -109,7 +109,7 @@ New-Item -Path ".\rescript.json" -ItemType File
 
 <!-- tabs:end -->
 
-In `rescript.json` file, add the following content:
+In the `rescript.json` file, add the following content:
 ```json
 {
   "name": "your-project-name",
@@ -138,7 +138,7 @@ In `rescript.json` file, add the following content:
 
 ?> For a more advanced configuration of the `rescript.json` file, you can read the [Rescript documentation](https://rescript-lang.org/docs/manual/v11.0.0/build-configuration).
 
-### Helper commands
+### Helper Commands
 
 Add the following scripts to your `package.json` to compile your `.res` files to JavaScript:
 

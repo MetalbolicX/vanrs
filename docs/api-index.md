@@ -217,6 +217,27 @@ Parameters:
 - `t<{..}, 'a>` — The element builder with its tag, namespace, attributes, and children.
 - Returns: `Dom.element` — The constructed DOM element that can be added to the document.
 
+#### Control Flow of `Van.Tags` builder
+
+The control flow of the `Van.Tags` module is designed to chain (curry) functions together, allowing you to set the attributes, properties and children to a new DOM element without needing to create intermediate variables. This results in cleaner and more readable code. The sequence of operations is as follows:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Builder as Van.Tags
+    User->>Builder: make("div")
+    Builder-->>User: t<{..}, 'a>
+    User->>Builder: attr({class: "my-class"})
+    Builder-->>User: t<{..}, 'a>
+    User->>Builder: append(Text("Hello"))
+    Builder-->>User: t<{..}, 'a>
+    User->>Builder: appendChildren([Number(42), Boolean(true)])
+    Builder-->>User: t<{..}, 'a>
+    User->>Builder: build
+    Note right of Builder: Set attributes, properties and child or children. <br>When the `build` function is called, it returns a `Dom.element`.
+    Builder-->>User: Dom.element
+```
+
 #### Example Usage
 
 ```reason

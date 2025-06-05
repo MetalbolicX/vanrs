@@ -2,7 +2,7 @@
 
 ## Description
 
-ReScript-VanJS provides bindings for [VanJS](https://vanjs.org/), an ultra-lightweight, zero-dependency reactive UI framework. This project enables developers to create web applications using ReScript, a strongly-typed programming language that compiles to JavaScript, in combination with the simplicity and efficiency of VanJS.
+`rescript-vanjs` provides bindings for [VanJS](https://vanjs.org/), which is lightest, zero-dependency reactive UI framework in the JavaScript ecosystem.By taking the advantage of the strongly-typed system of ReScript.
 
 ## Features
 
@@ -11,7 +11,7 @@ ReScript-VanJS provides bindings for [VanJS](https://vanjs.org/), an ultra-light
 - Reactive UI components with minimal overhead.
 - Easy-to-use API for creating dynamic web applications.
 
-## Installation
+## Quick Installation
 
 ### 1. Create a ReScript Application
 
@@ -21,14 +21,6 @@ First, create a new ReScript application using one of the following commands:
 npm create rescript-app@latest
 ```
 
-```sh
-pnpm create rescript-app
-```
-
-```sh
-bun create rescript-app
-```
-
 For more information on setting up a ReScript project, refer to the [official ReScript documentation](https://rescript-lang.org/docs/manual/latest/installation).
 
 ### 2. Install Dependencies
@@ -36,18 +28,10 @@ For more information on setting up a ReScript project, refer to the [official Re
 Add the required dependencies to your project:
 
 ```sh
-npm install vanjs-core rescript-vanjs
+npm i vanjs-core rescript-vanjs
 ```
 
-```sh
-pnpm add vanjs-core rescript-vanjs
-```
-
-```sh
-bun add vanjs-core rescript-vanjs
-```
-
-### 3. Update Configuration
+### 3. Update Configuration `rescript.json` file
 
 In your `rescript.json` file, add the following dependency:
 
@@ -57,9 +41,9 @@ In your `rescript.json` file, add the following dependency:
 }
 ```
 
-## Usage
+## Hello World Example
 
-Here's a simple example of how to use ReScript-VanJS to create a reactive UI component:
+Here's a simple example of how to use `rescript-vanjs` to create a reactive UI component:
 
 1. Create a file named `Main.res` in your `src` folder.
 2. Add the following code to `Main.res`:
@@ -73,34 +57,14 @@ let root = switch getElementById("root") {
 | None => Exn.raiseError("Root element not found")
 }
 
-@get external getEventTarget: Dom.event => Dom.eventTarget = "target"
-@get external getInputValue: Dom.eventTarget => string = "value"
-
-let deriveState: unit => Dom.element = () => {
-  let vanText = Van.state("VanJs")
-  let length = Van.derive(() => vanText.val->String.length)
-
-  open Van.Child
-  Van.Dom.createElement("span")
-  ->Van.Dom.addChildren([
-    "The length of the text is: "->toText,
-    Van.Dom.createElement("input")
-    ->Van.Dom.setAttrs({
-      "type": "text",
-      "value": vanText,
-      "oninput": (event: Dom.event) => vanText.val = event->getEventTarget->getInputValue,
-    })
-    ->Van.Dom.build
-    ->toDom,
-    length->toState,
-  ])
-  ->Van.Dom.build
+let hello: unit => Dom.element = () => {
+  Van.Tag.make("div")
+  ->Van.Tags.addChild(Text("Hello, World!"))
+  ->Van.Tags.build
 }
 
-Van.add(root, deriveState())->ignore
+Van.add(root, [Dom(hello())])->ignore
 ```
-
-This example creates a reactive input field that displays the length of its content in real-time.
 
 ## Build and Run
 
@@ -121,15 +85,36 @@ Follow these steps to build and run your rescript-vanjs application:
    bun build ./src/Main.res.mjs --outdir ./out --format esm
    ```
 
+## Do you want to learn more?
+
+- Check out the [VanJS documentation](https://vanjs.org/tutorial) for more information on how to use VanJS effectively.
+- Explore the [ReScript documentation](https://rescript-lang.org/docs/manual/latest/introduction) for a deeper understanding of ReScript.
+
+## Documentation
+
+For detailed documentation on how to use `rescript-vanjs`, refer to the [API documentation](docs/api-index.md).
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+## Technologies used
+
+<div style="display: flex; gap: 32px; align-items: flex-start;">
+  <div style="text-align: center;">
+    <a target="_blank" href="https://vanjs.org/">
+      <img src="./images/vanjs-logo.png" alt="VanJS" width="42" height="42" />
+    </a>
+    <div style="font-size: 0.9em;">VanJS</div>
+  </div>
+  <div style="text-align: center;">
+    <a target="_blank" href="https://rescript-lang.org/">
+      <img src="./images/rescript-logo.png" alt="ReScript" width="42" height="42" />
+    </a>
+    <div style="font-size: 0.9em;">ReScript</div>
+  </div>
+</div>
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-## Technologies used
-
-- [ReScript](https://rescript-lang.org/) a type-safe language that compiles in JavaScript.
-- [VanJS](https://vanjs.org/) for the lightweight reactive UI framework of JavaScript.

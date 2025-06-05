@@ -63,7 +63,7 @@ deno run res:build
 
 <!-- tabs:end -->
 
-3. After compiling, the JavaScript file (or files) will be generated aside each `.res` file. Howerver, the file (or files) are may not be ready to be used in the browser or a JavaScript environment yet, so you need to bundle them. You can do this by adding any bundler of your choice, such as [esbuild](https://esbuild.github.io/), [rollup](https://rollupjs.org/), [rsbuild](https://rsbuild.rs/), or [webpack](https://webpack.js.org/).
+3. After compiling, the JavaScript file (or files) will be generated aside each `.res` file. However, the file (or files) are may not be ready to be used in the browser or a JavaScript environment yet, so you need to bundle them. You can do this by adding any bundler of your choice, such as [esbuild](https://esbuild.github.io/), [rollup](https://rollupjs.org/), [rsbuild](https://rsbuild.rs/), or [webpack](https://webpack.js.org/).
 
 For this tutorial, we will use [rolldown](https://rolldown.rs/), which is a bundler that is easy to use and has a good performance. To install it, run the following command:
 
