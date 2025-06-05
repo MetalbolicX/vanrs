@@ -100,20 +100,26 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Technologies used
 
-<div style="display: flex; gap: 32px; align-items: flex-start;">
-  <div style="text-align: center;">
-    <a target="_blank" href="https://vanjs.org/">
-      <img src="./images/vanjs-logo.png" alt="VanJS" width="42" height="42" />
-    </a>
-    <div style="font-size: 0.9em;">VanJS</div>
-  </div>
-  <div style="text-align: center;">
-    <a target="_blank" href="https://rescript-lang.org/">
-      <img src="./images/rescript-logo.png" alt="ReScript" width="42" height="42" />
-    </a>
-    <div style="font-size: 0.9em;">ReScript</div>
-  </div>
-</div>
+## Technologies used
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://vanjs.org/" target="_blank">
+        <img src="./images/vanjs-logo.png" alt="VanJS" width="42" height="42" /><br/>
+        <b>VanJS</b><br/>
+        <span style="color: #888;">Reactive UI Framework</span>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://rescript-lang.org/" target="_blank">
+        <img src="./images/rescript-logo.png" alt="ReScript" width="42" height="42" /><br/>
+        <b>ReScript</b><br/>
+        <span style="color: #888;">Strongly-Typed Language</span>
+      </a>
+    </td>
+  </tr>
+</table>
 
 ## License
 
