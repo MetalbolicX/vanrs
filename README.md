@@ -1,8 +1,12 @@
 # rescript-vanjs
 
-## Description
+> `rescript-vanjs` provides bindings for [VanJS](https://vanjs.org/), which is lightest, zero-dependency reactive UI framework in the JavaScript ecosystem. By taking the advantage of the strongly-typed system of ReScript.
 
-`rescript-vanjs` provides bindings for [VanJS](https://vanjs.org/), which is lightest, zero-dependency reactive UI framework in the JavaScript ecosystem.By taking the advantage of the strongly-typed system of ReScript.
+**Supported Versions:**
+
+![VanJS](https://img.shields.io/badge/VanJS->=1.5.5-blue)
+![ReScript](https://img.shields.io/badge/ReScript->=11.0.0-blue)
+
 
 ## Features
 
@@ -92,7 +96,12 @@ Follow these steps to build and run your rescript-vanjs application:
 
 ## Documentation
 
-For detailed documentation on how to use `rescript-vanjs`, refer to the [API documentation](https://metalbolicx.github.io/rescript-vanjs/#/api-index).
+<div align="center">
+
+[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://metalbolicx.github.io/rescript-vanjs/#/api-index)
+
+</div>
+
 
 ## Contributing
 
@@ -119,4 +128,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+Released under [MIT](/LICENSE) by [@MetalbolicX](https://github.com/MetalbolicX).
