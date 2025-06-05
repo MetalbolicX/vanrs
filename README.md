@@ -72,27 +72,7 @@ Van.add(root, [Dom(hello())])->ignore
 
 ## Build and Run
 
-Follow these steps to build and run your rescript-vanjs application:
-
-1. Start the ReScript development server:
-   ```sh
-   npm run res:dev
-   ```
-
-2. If there are no errors, build the JavaScript files:
-   ```sh
-   npm run res:build
-   ```
-
-3. Build the JavaScript bundle for browser use. For example, using [Bun](https://bun.sh/) (you can use any other JavaScript bundler):
-   ```sh
-   bun build ./src/Main.res.mjs --outdir ./out --format esm
-   ```
-
-## Do you want to learn more?
-
-- Check out the [VanJS documentation](https://vanjs.org/tutorial) for more information on how to use VanJS effectively.
-- Explore the [ReScript documentation](https://rescript-lang.org/docs/manual/latest/introduction) for a deeper understanding of ReScript.
+To build and run your ReScript application, see the [Compile and Run](https://metalbolicx.github.io/rescript-vanjs/#/compile-run) section.
 
 ## Documentation
 
@@ -102,6 +82,10 @@ Follow these steps to build and run your rescript-vanjs application:
 
 </div>
 
+## Do you want to learn more?
+
+- Check out the [VanJS documentation](https://vanjs.org/tutorial) for more information on how to use VanJS effectively.
+- Explore the [ReScript documentation](https://rescript-lang.org/docs/manual/latest/introduction) for a deeper understanding of ReScript.
 
 ## Contributing
 
