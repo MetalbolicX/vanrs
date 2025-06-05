@@ -2,6 +2,7 @@
   "name": "rescript-vanjs",
   "version": "2.1.0",
   "type": "module",
+  "homepage": "https://metalbolicx.github.io/rescript-vanjs/#/",
   "author": {
     "name": "José Martínez Santana"
   },
@@ -21,7 +22,7 @@
     "rolldown": "^1.0.0-beta.10",
     "vanjs-core": "^1.5.5"
   },
-  "description": "Rescript bindings for VanJS, the lightest weight reactive JavaScript framework for building web applications.",
+  "description": "Rescript bindings for the VanJS, the lightest weight reactive JavaScript framework for building web applications.",
   "keywords": [
     "rescript",
     "vanjs",
@@ -39,5 +40,8 @@
     "res:bundle": "rolldown ./example/Main.res.mjs --file ./example/Main.res.js --format es",
     "res:test": "retest --with-dom test/**/*.res.mjs",
     "docs": "docsify serve docs"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
