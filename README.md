@@ -100,7 +100,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Technologies used
 
-<table border="0>
+<table border="0">
   <tr>
     <td align="center">
       <a href="https://vanjs.org/" target="_blank">
