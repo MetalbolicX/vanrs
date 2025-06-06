@@ -1,8 +1,8 @@
 # VanRS
 
-<figure align="center">
+<div align="center">
   <img src="./images/vanrs-logo.png" alt="VanRS Logo" width="200" height="200" />
-</figure>
+</div>
 
 > `VanRS` provides bindings for [VanJS](https://vanjs.org/), which is lightest, zero-dependency reactive UI framework in the JavaScript ecosystem. By taking the advantage of the strongly-typed system of the ReScript programming language.
 
