@@ -25,7 +25,8 @@ First, create a new ReScript application using one of the following commands:
 npm create rescript-app@latest
 ```
 
-For more information on setting up a ReScript project, refer to the [official ReScript documentation](https://rescript-lang.org/docs/manual/latest/installation).
+> [!NOTE]
+> For more information on setting up a ReScript project, refer to the [official ReScript documentation](https://rescript-lang.org/docs/manual/latest/installation).
 
 ### 2. Install Dependencies
 

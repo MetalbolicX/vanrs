@@ -96,7 +96,7 @@ The result in the `HTML` will be:
 </html>
 ```
 
-!> Futher information of the `Van.add` can be found in the [VanJS documentation](https://vanjs.org/tutorial#api-add).
+?> Futher information of the `Van.add` can be found in the [VanJS documentation](https://vanjs.org/tutorial#api-add).
 
 ### `Van.Tags` Module
 
@@ -259,7 +259,7 @@ switch appElement {
 }
 ```
 
-!> Futher information of the `Van.Tags` can be found in the [VanJS documentation](https://vanjs.org/tutorial#api-tags).
+?> Futher information of the `Van.Tags` can be found in the [VanJS documentation](https://vanjs.org/tutorial#api-tags).
 
 ## State
 
@@ -331,7 +331,7 @@ logCounts();
 
 This example demonstrates how to create a state, derive a new state from it, and update the values reactively. The `logCounts` function will always reflect the current values of `count` and `doubleCount`.
 
-!> Futher information of the `Van.state` can be found in the [VanJS documentation](https://vanjs.org/tutorial#api-state).
+?> Futher information of the `Van.state` can be found in the [VanJS documentation](https://vanjs.org/tutorial#api-state).
 
 ## Server-Side Rendering (SSR)
 
@@ -352,4 +352,4 @@ Parameters:
 - `Dom.element => Dom.element` — A function that takes the SSR component DOM element and returns a hydrated DOM element. This function is responsible for attaching event listeners, initializing state, and performing any other necessary setup for the component.
 - Returns: `unit` — This function does not return a value; it performs the hydration in place.
 
-!> Futher information of the `Van.hydrate` can be found in the [VanJS documentation](https://vanjs.org/ssr#api-hydrate).
+?> Futher information of the `Van.hydrate` can be found in the [VanJS documentation](https://vanjs.org/ssr#api-hydrate).
