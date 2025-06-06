@@ -1,17 +1,17 @@
 {
-  "name": "rescript-vanjs",
-  "version": "2.1.0",
+  "name": "vanrs",
+  "version": "1.0.0",
   "type": "module",
-  "homepage": "https://metalbolicx.github.io/rescript-vanjs/#/",
+  "homepage": "https://metalbolicx.github.io/vanrs/#/",
   "author": {
     "name": "José Martínez Santana"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetalbolicX/rescript-vanjs.git"
+    "url": "https://github.com/MetalbolicX/vanrs.git"
   },
   "bugs": {
-    "url": "https://github.com/MetalbolicX/rescript-vanjs/issues"
+    "url": "https://github.com/MetalbolicX/vanrs/issues"
   },
   "dependencies": {
     "@rescript/core": "^1.6.1",

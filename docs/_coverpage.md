@@ -1,4 +1,4 @@
-# rescript-vanjs
+# VanRS
 
 > Seamless, type-safe ReScript bindings for VanJS – the lightest reactive UI framework.
 

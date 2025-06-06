@@ -1,10 +1,10 @@
-# rescript-vanjs
+# VanRS
 
-This documentation provides instructions of how to setup a new project, the data types and some examples to use `rescript-vanjs` bindings API.
+This documentation provides instructions of how to setup a new project, the data types and some examples to use `VanRS` bindings API.
 
 ## FAQ
 
-Some questions that may arise when using `rescript-vanjs`, will be available in future releases of this documentation.
+Some questions that may arise when using `VanRS`, will be available in future releases of this documentation.
 
 ## Contact
 

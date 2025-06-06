@@ -1,6 +1,6 @@
-# rescript-vanjs
+# VanRS
 
-> `rescript-vanjs` provides bindings for [VanJS](https://vanjs.org/), which is lightest, zero-dependency reactive UI framework in the JavaScript ecosystem. By taking the advantage of the strongly-typed system of ReScript.
+> `VanRS` provides bindings for [VanJS](https://vanjs.org/), which is lightest, zero-dependency reactive UI framework in the JavaScript ecosystem. By taking the advantage of the strongly-typed system of ReScript.
 
 **Supported Versions:**
 
@@ -32,7 +32,7 @@ For more information on setting up a ReScript project, refer to the [official Re
 Add the required dependencies to your project:
 
 ```sh
-npm i vanjs-core rescript-vanjs
+npm i vanjs-core vanrs
 ```
 
 ### 3. Update Configuration `rescript.json` file
@@ -41,13 +41,13 @@ In your `rescript.json` file, add the following dependency:
 
 ```json
 {
-  "bs-dependencies": ["rescript-vanjs"]
+  "bs-dependencies": ["vanrs"]
 }
 ```
 
 ## Hello World Example
 
-Here's a simple example of how to use `rescript-vanjs` to create a reactive UI component:
+Here's a simple example of how to use `VanRS` to create a reactive UI component:
 
 1. Create a file named `Main.res` in your `src` folder.
 2. Add the following code to `Main.res`:
@@ -72,13 +72,13 @@ Van.add(root, [Dom(hello())])->ignore
 
 ## Build and Run
 
-To build and run your ReScript application, see the [Compile and Run](https://metalbolicx.github.io/rescript-vanjs/#/compile-run) section.
+To build and run your ReScript application, see the [Compile and Run](https://metalbolicx.github.io/vanrs/#/compile-run) section.
 
 ## Documentation
 
 <div align="center">
 
-[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://metalbolicx.github.io/rescript-vanjs/#/api-index)
+[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://metalbolicx.github.io/vanrs/#/api-index)
 
 </div>
 

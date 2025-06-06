@@ -56,37 +56,37 @@ deno init
 
 ### Install Dependencies
 
-Install VanJS, ReScript, and rescript-vanjs using your preferred package manager:
+Install `VanJS`, `ReScript`, and `VanRS` using your preferred package manager:
 
 <!-- tabs:start -->
 
 #### **npm**
 ```sh
-npm install vanjs-core rescript @rescript/core rescript-vanjs
+npm install vanjs-core rescript @rescript/core vanrs
 ```
 
 
 #### **pnpm**
 ```sh
-pnpm add vanjs-core rescript @rescript/core rescript-vanjs
+pnpm add vanjs-core rescript @rescript/core vanrs
 ```
 
 
 #### **yarn**
 ```sh
-yarn add vanjs-core rescript @rescript/core rescript-vanjs
+yarn add vanjs-core rescript @rescript/core vanrs
 ```
 
 
 ##### **bun**
 ```sh
-bun add vanjs-core rescript @rescript/core rescript-vanjs
+bun add vanjs-core rescript @rescript/core vanrs
 ```
 
 
 #### **deno**
 ```sh
-deno add --npm vanjs-core rescript @rescript/core rescript-vanjs
+deno add --npm vanjs-core rescript @rescript/core vanrs
 ```
 
 <!-- tabs:end -->
@@ -128,7 +128,7 @@ In the `rescript.json` file, add the following content:
   "suffix": ".res.mjs",
   "bs-dependencies": [
     "@rescript/core",
-    "rescript-vanjs"
+    "vanrs"
   ],
   "bsc-flags": [
     "-open RescriptCore"
