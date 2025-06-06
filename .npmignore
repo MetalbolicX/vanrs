@@ -9,3 +9,8 @@ test/
 index.html
 src/Main.res
 ts/
+/docs/
+/example/
+/images/
+/.vscode
+/test/
