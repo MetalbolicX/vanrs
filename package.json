@@ -13,6 +13,7 @@
   "bugs": {
     "url": "https://github.com/MetalbolicX/vanrs/issues"
   },
+  "files": ["src"],
   "dependencies": {
     "@rescript/core": "^1.6.1",
     "rescript": "^11.1.4"
