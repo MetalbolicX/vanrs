@@ -19,7 +19,7 @@
 - Reactive UI components with minimal overhead.
 - Easy-to-use API for creating dynamic web applications.
 
-## Quick Installation
+## 🚀 Quick Installation
 
 ### 1. Create a ReScript Application
 
@@ -50,7 +50,7 @@ In your `rescript.json` file, add the following dependency:
 }
 ```
 
-## Hello World Example
+## 🙌 Hello World Example
 
 Here's a simple example of how to use `VanRS` to create a reactive UI component:
 
@@ -75,11 +75,11 @@ let hello: unit => Dom.element = () => {
 Van.add(root, [Dom(hello())])->ignore
 ```
 
-## Build and Run
+## 🛠 Build and Run
 
 To build and run your ReScript application, see the [Compile and Run](https://metalbolicx.github.io/vanrs/#/compile-run) section.
 
-## Documentation
+## 📚 Documentation
 
 <div align="center">
 
@@ -87,7 +87,7 @@ To build and run your ReScript application, see the [Compile and Run](https://me
 
 </div>
 
-## Do you want to learn more?
+## ✍ Do you want to learn more?
 
 - Check out the [VanJS documentation](https://vanjs.org/tutorial) for more information on how to use VanJS effectively.
 - Explore the [ReScript documentation](https://rescript-lang.org/docs/manual/latest/introduction) for a deeper understanding of ReScript.
