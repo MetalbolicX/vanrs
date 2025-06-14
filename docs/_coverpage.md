@@ -9,4 +9,4 @@ Build interactive frontend applications with zero dependencies and strong typing
 
 [Getting Started](/getting-started.md)
 [API Reference](/api-index.md)
-[GitHub](https://github.com/MetalbolicX/rescript-vanjs)
+[GitHub](https://github.com/MetalbolicX/vanrs)
