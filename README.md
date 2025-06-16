@@ -11,7 +11,6 @@
 ![VanJS](https://img.shields.io/badge/VanJS->=1.5.5-blue)
 ![ReScript](https://img.shields.io/badge/ReScript->=11.0.0-blue)
 
-
 ## Features
 
 - Seamless integration of ReScript with VanJS.

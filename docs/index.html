@@ -38,6 +38,13 @@
           readyTransition: true,
           responsiveTables: true,
         },
+        search: {
+          noData: "No results found",
+          paths: ["/api-index", "compile-run", "getting-started", "tutorials"],
+          placeholder: "Search...",
+          depth: 2,
+          maxAge: 86400000, // 1 day
+        },
       };
     </script>
     <script
@@ -87,6 +94,11 @@
     </script> -->
     <script
       src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2.0.1/dist/docsify-mermaid.js"
+      type="text/javascript"
+      lang="javascript"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"
       type="text/javascript"
       lang="javascript"
     ></script>
