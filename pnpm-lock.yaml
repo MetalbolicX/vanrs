@@ -7,14 +7,13 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
       '@rescript/core':
         specifier: ^1.6.1
         version: 1.6.1(rescript@11.1.4)
       rescript:
         specifier: ^11.1.4
         version: 11.1.4
-    devDependencies:
       rescript-test:
         specifier: ^7.0.1
         version: 7.0.1(rescript@11.1.4)
