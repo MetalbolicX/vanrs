@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      vanjs-core:
+        specifier: ^1.5.5
+        version: 1.5.5
     devDependencies:
       '@rescript/core':
         specifier: ^1.6.1
@@ -20,9 +24,6 @@ importers:
       rolldown:
         specifier: ^1.0.0-beta.10
         version: 1.0.0-beta.10
-      vanjs-core:
-        specifier: ^1.5.5
-        version: 1.5.5
 
 packages:
 
